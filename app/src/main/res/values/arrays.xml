@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="network_entries">
+        <item name="1">@string/network_entries_item_1</item>
+        <item name="2">@string/network_entries_item_2</item>
+    </string-array>
+    <string-array name="network_entry_values">
+        <item name = "1">@string/network_entries_item_1</item>
+        <item name="2">@string/network_entries_item_2</item>
+    </string-array>
+    <string-array name="nav_array">
+        <item>Item 1</item>
+        <item>Item 2</item>
+        <item>Item 3</item>
+        <item>@string/action_settings</item>
+    </string-array>
+</resources>

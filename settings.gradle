@@ -1,1 +1,2 @@
-include ':app'
+include ':app', ':gitkit-sdk', ':facebook', ':RPSSample', ':FriendPickerSample', ':SwitchUserSample', ':Scrumptious'
+include ":identitytoolkit_lib"

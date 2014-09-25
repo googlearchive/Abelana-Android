@@ -21,4 +21,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(':identitytoolkit_lib')
+    compile project(':facebook')
+    compile 'com.android.support:support-v4:20.0.0'
+    compile 'com.google.android.gms:play-services:5.2.08'
 }

@@ -1,6 +1,8 @@
 package com.google.samples.apps.cloudlaunch;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -123,12 +125,12 @@ public class BaseActivity extends Activity {
 
     }
 
-    /* The click listner for ListView in the navigation drawer */
+    /* The click listener for ListView in the navigation drawer */
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             selectItem(position);
-            //Toast.makeText(getApplicationContext(), mNavItems[position], Toast.LENGTH_LONG).show();
+
         }
     }
 
@@ -138,7 +140,18 @@ public class BaseActivity extends Activity {
             Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
             startActivity(intent);
         }
-
+        if (mNavItems[position].equals("Friends")) {
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.content_frame, new FriendsFragment())
+            .commit();
+        }
+        if (mNavItems[position].equals("Home")) {
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.content_frame, new FeedActivity.PlaceholderFragment())
+                    .commit();
+        }
 
         // update selected item and title, then close the drawer
         mDrawerList.setItemChecked(position, true);

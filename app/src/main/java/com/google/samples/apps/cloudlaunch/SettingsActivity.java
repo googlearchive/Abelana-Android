@@ -6,10 +6,11 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 
-import com.google.samples.apps.cloudlaunch.gitkit.Gitkit;
+import com.google.samples.apps.cloudlaunch.gitkit.LoginActivity;
 
 
 public class SettingsActivity extends Activity {
+    public static final String KEY_PREF_PROFILE_VISIBILITY = "pref_profile_visibility";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +44,9 @@ public class SettingsActivity extends Activity {
             signOut.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    Gitkit.client.signOut();
-                    Intent loginIntent = new Intent(getActivity(), MainActivity.class);
+                    LoginActivity.client.signOut();
+                    Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
+                    loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(loginIntent);
                     getActivity().finish();
                     return true;

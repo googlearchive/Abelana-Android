@@ -22,5 +22,16 @@
     <string name="action_camera">Camera</string>
     <string name="title_activity_feed">FeedActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="pref_profile_visibility_title">Make my profile private</string>
+    <string name="pref_profile_visibility_summary">Only approved followers will see your photos</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Upload test strings-->
+    <string name="service_account">416523807683-87kpuu2fsvov4hbg9j8f8808an8h2k2b@developer.gserviceaccount.com</string>
+    <string name="upload_bucket">abelana-in</string>
+    <string name="display_bucket">abelana</string>
+
+
+    <string name="photo_upload_success_message">Success! Uploading photo...</string>
 
 </resources>

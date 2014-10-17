@@ -7,19 +7,21 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.identitytoolkit.client.GitkitClient;
 import com.google.identitytoolkit.model.Account;
 import com.google.identitytoolkit.model.IdToken;
 import com.google.samples.apps.cloudlaunch.FeedActivity;
+import com.google.samples.apps.cloudlaunch.R;
 
 /**
  * Gitkit Demo.
  */
-public class Gitkit extends FragmentActivity implements OnClickListener {
+public class LoginActivity extends FragmentActivity implements OnClickListener {
 
-    private final String LOG_TAG = Gitkit.class.getSimpleName();
+    private final String LOG_TAG = LoginActivity.class.getSimpleName();
     public static GitkitClient client;
 
     @Override
@@ -45,7 +47,7 @@ public class Gitkit extends FragmentActivity implements OnClickListener {
             // This method is called when the sign-in process fails.
             @Override
             public void onSignInFailed() {
-                Toast.makeText(Gitkit.this, "Sign in failed", Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, "Sign in failed", Toast.LENGTH_LONG).show();
             }
         }).build();
 
@@ -93,14 +95,19 @@ public class Gitkit extends FragmentActivity implements OnClickListener {
     }
 
     public void showSignInPage() {
-        client.startSignIn();
+        setContentView(R.layout.fragment_main);
+        Button button = (Button) findViewById(R.id.sign_in_button);
+        button.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                client.startSignIn();
+            }
+        });
+
     }
 
 
     private void showProfilePage(IdToken idToken, Account account) {
-        //setContentView(R.layout.profile);
-        //showAccount(account);
-
         Log.v(LOG_TAG, "Token is: " + idToken.toString() + " Account is: " + account.toString());
 
         Intent feedIntent = new Intent(getApplicationContext(), FeedActivity.class);

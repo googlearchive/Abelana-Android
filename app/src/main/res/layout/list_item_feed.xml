@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
-<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/customImageView"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-
-</ImageView>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/feed_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:text="Zafir Khan"/>
+    <com.google.samples.apps.cloudlaunch.SquaredImageView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/feed_photo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:src="@drawable/button_bg"/>
+    <TextView
+        android:id="@+id/feed_likes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:text="5 likes"/>
+</LinearLayout>

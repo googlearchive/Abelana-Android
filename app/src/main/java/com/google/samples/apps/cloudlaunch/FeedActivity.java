@@ -46,7 +46,7 @@ public class FeedActivity extends BaseActivity {
         //Replace the current fragment with the Feed/Camera fragment via transaction
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .replace(R.id.content_frame, new PlaceholderFragment())
+                    .replace(R.id.content_frame, new FeedFragment())
                     .commit();
         }
 
@@ -55,15 +55,14 @@ public class FeedActivity extends BaseActivity {
     /**
      * Fragment that displays the main feed, as well as creates the photo capture capability
      */
-    public static class PlaceholderFragment extends Fragment {
+    public static class FeedFragment extends Fragment {
         static final int REQUEST_IMAGE_CAPTURE = 1;
         static final int MEDIA_TYPE_IMAGE = 2;
         protected Uri mMediaUri;
         protected File mPhotoFile;
-        private final String LOG_TAG = PlaceholderFragment.class.getSimpleName();
-        ListView listView;
+        private final String LOG_TAG = FeedFragment.class.getSimpleName();
 
-        public PlaceholderFragment() {
+        public FeedFragment() {
         }
 
         @Override
@@ -72,18 +71,12 @@ public class FeedActivity extends BaseActivity {
             View rootView = inflater.inflate(R.layout.fragment_feed, container, false);
             //required to display menu with the camera button
             setHasOptionsMenu(true);
-            listView = (ListView) rootView.findViewById(R.id.listview_timeline);
+            ListView listView = (ListView) rootView.findViewById(R.id.listview_timeline);
             //required initialization to request URLs
             new AbelanaThings(getActivity(), "");
             //set the adapter for the feed listview
-            listView.setAdapter(new CustomAdapter(getActivity()));
+            listView.setAdapter(new FeedAdapter(getActivity()));
             return rootView;
-        }
-
-
-        @Override
-        public void onResume() {
-            super.onResume();
         }
 
         @Override

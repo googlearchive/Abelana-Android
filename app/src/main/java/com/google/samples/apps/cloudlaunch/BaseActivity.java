@@ -52,6 +52,11 @@ public class BaseActivity extends Activity {
     private CharSequence mTitle;
     private String[] mNavItems;
 
+    protected static final int NAVDRAWER_ITEM_HOME = 0;
+    protected static final int NAVDRAWER_ITEM_PROFILE = 1;
+    protected static final int NAVDRAWER_ITEM_FRIENDS = 2;
+    protected static final int NAVDRAWER_ITEM_SETTINGS = 3;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,21 +140,25 @@ public class BaseActivity extends Activity {
     }
 
     private void selectItem(int position) {
+        FragmentManager fragmentManager = getFragmentManager();
 
-        if (mNavItems[position].equals("Settings")) {
+        if (position == NAVDRAWER_ITEM_SETTINGS) {
             Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
             startActivity(intent);
         }
-        if (mNavItems[position].equals("Friends")) {
-            FragmentManager fragmentManager = getFragmentManager();
+        if (position == NAVDRAWER_ITEM_FRIENDS) {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.replace(R.id.content_frame, new FriendsFragment())
             .commit();
         }
-        if (mNavItems[position].equals("Home")) {
-            FragmentManager fragmentManager = getFragmentManager();
+        if (position == NAVDRAWER_ITEM_HOME) {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.replace(R.id.content_frame, new FeedActivity.PlaceholderFragment())
+            transaction.replace(R.id.content_frame, new FeedActivity.FeedFragment())
+                    .commit();
+        }
+        if (position == NAVDRAWER_ITEM_PROFILE) {
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.content_frame, new ProfileFragment())
                     .commit();
         }
 

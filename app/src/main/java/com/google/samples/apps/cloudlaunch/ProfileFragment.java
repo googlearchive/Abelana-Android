@@ -1,23 +1,22 @@
 package com.google.samples.apps.cloudlaunch;
 
 
-
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
+import android.widget.GridView;
 
 
 /**
  * A simple {@link Fragment} subclass.
  *
  */
-public class FriendsFragment extends Fragment {
+public class ProfileFragment extends Fragment {
 
 
-    public FriendsFragment() {
+    public ProfileFragment() {
         // Required empty public constructor
     }
 
@@ -25,13 +24,14 @@ public class FriendsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_friends, container, false);
-        ListView listView = (ListView) rootView.findViewById(R.id.listview_friends);
+        View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
+        GridView gridView = (GridView) rootView.findViewById(R.id.gridview);
         //required initialization to request URLs
         new AbelanaThings(getActivity(), "");
-        //set the adapter for the friends listview
-        listView.setAdapter(new FriendsAdapter(getActivity()));
+        //set the adapter for the profile gridview
+        gridView.setAdapter(new ProfileAdapter(getActivity()));
         return rootView;
+
     }
 
 

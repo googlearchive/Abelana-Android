@@ -1,4 +1,4 @@
-package com.google.samples.apps.cloudlaunch;
+package com.google.samples.apps.abelana;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -25,9 +25,11 @@ public class FeedAdapter extends BaseAdapter {
 
     public FeedAdapter(Context context) {
         mContext = context;
-
         // Ensure we get a different ordering of images on each run.
         Collections.addAll(mUrls, Data.URLS);
+        //for (int i = 0; i < 9; i++) {
+          //  mUrls.add(AbelanaThings.getImage("0001"));
+        //}
         Collections.addAll(mNames,Data.NAMES);
         Collections.addAll(mLikes, Data.NUM_LIKES);
 

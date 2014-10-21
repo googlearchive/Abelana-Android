@@ -1,12 +1,10 @@
-package com.google.samples.apps.cloudlaunch;
+package com.google.samples.apps.abelana;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-
-import com.google.samples.apps.cloudlaunch.gitkit.LoginActivity;
 
 
 public class SettingsActivity extends Activity {

@@ -1,4 +1,4 @@
-package com.google.samples.apps.cloudlaunch.gitkit;
+package com.google.samples.apps.abelana.gitkit;
 
 import android.util.Log;
 

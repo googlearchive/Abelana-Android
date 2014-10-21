@@ -1,10 +1,10 @@
-package com.google.samples.apps.cloudlaunch;
+package com.google.samples.apps.abelana;
 
 /**
  * Created by zafir on 10/15/14.
  */
 final class Data {
-    static final String[] URLS = {
+    static String[] URLS = {
             AbelanaThings.getImage("0001"),
             AbelanaThings.getImage("0002"),
             AbelanaThings.getImage("0003"),

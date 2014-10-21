@@ -1,4 +1,4 @@
-package com.google.samples.apps.cloudlaunch.gitkit;
+package com.google.samples.apps.abelana;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -13,8 +13,10 @@ import android.widget.Toast;
 import com.google.identitytoolkit.client.GitkitClient;
 import com.google.identitytoolkit.model.Account;
 import com.google.identitytoolkit.model.IdToken;
-import com.google.samples.apps.cloudlaunch.FeedActivity;
-import com.google.samples.apps.cloudlaunch.R;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Gitkit Demo.
@@ -108,10 +110,29 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
 
 
     private void showProfilePage(IdToken idToken, Account account) {
-        Log.v(LOG_TAG, "Token is: " + idToken.toString() + " Account is: " + account.toString());
+        Log.v(LOG_TAG, "Token is: " + idToken.getTokenString() + " Account is: " + account.toString());
 
-        Intent feedIntent = new Intent(getApplicationContext(), FeedActivity.class);
-        startActivity(feedIntent);
+        AbelanaClient abelanaClient = new AbelanaClient();
+
+        abelanaClient.mLogin.login(idToken.getTokenString(), new Callback<AbelanaClient.LoginResponse>() {
+            public void success(AbelanaClient.LoginResponse l, Response r) {
+                String aTok = l.ATok;
+                Log.v(LOG_TAG, "DONE! Token is " + aTok);
+                AbelanaThings.start(getApplicationContext(), aTok);
+                Intent feedIntent = new Intent(getApplicationContext(), FeedActivity.class);
+                //feedIntent.putExtra("aTok", aTok);
+                startActivity(feedIntent);
+                //remove login from the backstack
+                finish();
+
+            }
+
+            public void failure(RetrofitError e) {
+                Log.v(LOG_TAG, "Failure!");
+                Toast.makeText(getApplicationContext(), "Login failed!", Toast.LENGTH_LONG);
+            }
+        });
+
 
     }
 

@@ -1,4 +1,4 @@
-package com.google.samples.apps.cloudlaunch;
+package com.google.samples.apps.abelana;
 
 import android.app.Activity;
 import android.app.FragmentManager;

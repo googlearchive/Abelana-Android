@@ -5,4 +5,8 @@
         android:title="@string/action_camera"
         android:showAsAction="always"
         android:icon="@drawable/ic_action_camera"/>
+    <item android:id="@+id/action_refresh"
+        android:title="@string/action_refresh"
+        android:showAsAction="always"
+        android:icon="@drawable/ic_action_refresh"/>
 </menu>

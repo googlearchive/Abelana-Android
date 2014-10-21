@@ -1,4 +1,4 @@
-package com.google.samples.apps.cloudlaunch;
+package com.google.samples.apps.abelana;
 
 
 
@@ -27,8 +27,7 @@ public class FriendsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_friends, container, false);
         ListView listView = (ListView) rootView.findViewById(R.id.listview_friends);
-        //required initialization to request URLs
-        new AbelanaThings(getActivity(), "");
+
         //set the adapter for the friends listview
         listView.setAdapter(new FriendsAdapter(getActivity()));
         return rootView;

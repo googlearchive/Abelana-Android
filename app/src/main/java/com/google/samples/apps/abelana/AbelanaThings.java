@@ -1,20 +1,22 @@
-package com.google.samples.apps.cloudlaunch;
+package com.google.samples.apps.abelana;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.net.Uri;
+import android.util.Base64;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.repackaged.org.apache.commons.codec.binary.Base64;
 import com.google.api.services.storage.Storage;
 import com.google.api.services.storage.StorageScopes;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -29,35 +31,74 @@ import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.util.Collections;
 
+
 /**
  * Created by lesv on 10/9/14.
  * This make take about 300ms seconds to complete, but it will only run once.
  */
 public class AbelanaThings  {
 
-    public static Storage storage = null;
 
-    private static final String MY_PASSWD = "notasecret";       // FIXME TODO
+    public static Storage storage;
+
     private static GoogleCredential credential;
 
-    public AbelanaThings(Activity activity, String phint ) {
+    public static AbelanaUser start(Context ctx, String atok) {
+        String halfKey = "";
+        AbelanaUser user = new AbelanaUser();
+
+        String[] part = atok.split("\\.");
+        byte[] jb = Base64.decode(part[1], Base64.URL_SAFE);
+        String json = new String(jb);
+
+        try {
+            JSONObject pojo = new JSONObject(json);
+            user.UserID = pojo.getString("UserID");
+            user.Exp = pojo.getLong("Exp");
+            user.Iat = pojo.getLong("Iat");
+            halfKey = pojo.getString("HalfPW").replaceAll("\n","");
+        } catch (JSONException e) {
+            System.out.println("Abelana User - convert json "+e.toString());
+            return null;
+        }
+        if( storage == null) {
+        AbelanaThings at = new AbelanaThings(ctx, halfKey);
+        }
+        return user;
+    }
+
+    public AbelanaThings(Context ctx, String phint ) {
         final JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
         final HttpTransport httpTransport = new NetHttpTransport();
-        Resources r = activity.getResources();
+        Resources r = ctx.getResources();
+        byte[] android, server;
+        byte[] password = new byte[32];
+
+        android = Base64.decode("vW7CmbQWdPjpdfpBU39URsjHQV50KEKoSfafHdQPSh8",
+                Base64.URL_SAFE+Base64.NO_PADDING+Base64.NO_WRAP);
+        server = Base64.decode(phint, Base64.URL_SAFE);
+
+        int i = 0;
+        for(byte b : android) {
+            password[i] = (byte)(android[i] ^ server[i]);
+            i++;
+        }
+        byte[] pw = Base64.encode(password, Base64.URL_SAFE+Base64.NO_PADDING+Base64.NO_WRAP);
+        String pass = new String(pw);
 
         if (storage == null) {
             try {
                 KeyStore keystore = KeyStore.getInstance("PKCS12");
-                keystore.load(r.openRawResource(R.raw.abelana), MY_PASSWD.toCharArray());
+                keystore.load(r.openRawResource(R.raw.abelananew), pass.toCharArray());
 
-                credential = new GoogleCredential.Builder()
+                 credential = new GoogleCredential.Builder()
                         .setTransport(httpTransport)
                         .setJsonFactory(jsonFactory)
                         .setServiceAccountId(r.getString(R.string.service_account))
                         .setServiceAccountScopes(
                                 Collections.singleton(StorageScopes.DEVSTORAGE_FULL_CONTROL))
                         .setServiceAccountPrivateKey(
-                                (PrivateKey) keystore.getKey("privatekey", MY_PASSWD.toCharArray()))
+                                (PrivateKey) keystore.getKey("privatekey", pass.toCharArray()))
                         .build();
 
                 storage = new Storage.Builder( httpTransport, jsonFactory, credential)
@@ -75,6 +116,7 @@ public class AbelanaThings  {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            System.out.println("loaded");
         }
     }
 
@@ -89,13 +131,13 @@ public class AbelanaThings  {
         String uri = "https://storage.googleapis.com/abelana/"+name+".webp"
                 + "?GoogleAccessId="+credential.getServiceAccountId()
                 +"&Expires="+expires
-                +"&Signature="+Uri.encode(signData(
-                stringToSign));
+                +"&Signature="+Uri.encode(signData(stringToSign));
+
         return  uri;
 
     }
 
-    private static Signature signer = null;     // Cache the Signature
+    private static Signature signer;     // Cache the Signature
 
     private static String signData(String data) {
         try {
@@ -105,8 +147,7 @@ public class AbelanaThings  {
             }
             signer.update(data.getBytes("UTF-8"));
             byte[] rawSignature = signer.sign();
-            String encodedSignature = new String(Base64.encodeBase64(rawSignature, false), "UTF-8");
-            return encodedSignature;
+            return new String(Base64.encode(rawSignature, Base64.DEFAULT ));
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (InvalidKeyException e) {

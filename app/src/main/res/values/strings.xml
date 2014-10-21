@@ -33,5 +33,6 @@
 
 
     <string name="photo_upload_success_message">Success! Uploading photo...</string>
+    <string name="action_refresh">Refresh</string>
 
 </resources>

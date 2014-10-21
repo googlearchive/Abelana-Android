@@ -1,4 +1,4 @@
-package com.google.samples.apps.cloudlaunch;
+package com.google.samples.apps.abelana;
 
 
 import android.app.Fragment;
@@ -26,8 +26,7 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
         GridView gridView = (GridView) rootView.findViewById(R.id.gridview);
-        //required initialization to request URLs
-        new AbelanaThings(getActivity(), "");
+
         //set the adapter for the profile gridview
         gridView.setAdapter(new ProfileAdapter(getActivity()));
         return rootView;

@@ -1,4 +1,4 @@
-package com.google.samples.apps.cloudlaunch;
+package com.google.samples.apps.abelana;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -18,21 +18,23 @@ import android.widget.Toast;
 
 import com.google.identitytoolkit.client.GitkitClient;
 import com.google.identitytoolkit.model.IdToken;
-import com.google.samples.apps.cloudlaunch.gitkit.LoginActivity;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Random;
 
-import static android.util.Base64.DEFAULT;
+import static android.util.Base64.NO_PADDING;
+import static android.util.Base64.NO_WRAP;
+import static android.util.Base64.URL_SAFE;
 import static android.util.Base64.encodeToString;
 
 
 public class FeedActivity extends BaseActivity {
+    private final String LOG_TAG = FeedActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +45,19 @@ public class FeedActivity extends BaseActivity {
         //Initializes the application with the proper default settings
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
+        /*Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String aTok = extras.getString("aTok");
+            AbelanaUser user = AbelanaThings.start(getApplicationContext(), aTok);
+        }*/
+
         //Replace the current fragment with the Feed/Camera fragment via transaction
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
                     .replace(R.id.content_frame, new FeedFragment())
                     .commit();
         }
+
 
     }
 
@@ -72,8 +81,8 @@ public class FeedActivity extends BaseActivity {
             //required to display menu with the camera button
             setHasOptionsMenu(true);
             ListView listView = (ListView) rootView.findViewById(R.id.listview_timeline);
-            //required initialization to request URLs
-            new AbelanaThings(getActivity(), "");
+
+
             //set the adapter for the feed listview
             listView.setAdapter(new FeedAdapter(getActivity()));
             return rootView;
@@ -86,6 +95,11 @@ public class FeedActivity extends BaseActivity {
             if (id == R.id.action_camera) {
                 takePicture();
             }
+
+            if (id == R.id.action_refresh) {
+                Toast.makeText(getActivity(), "Refresh not yet enabled", Toast.LENGTH_SHORT).show();
+            }
+
             return super.onOptionsItemSelected(item);
 
         }
@@ -100,11 +114,11 @@ public class FeedActivity extends BaseActivity {
                 Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                 mediaScanIntent.setData(mMediaUri);
                 getActivity().sendBroadcast(mediaScanIntent);
-
+                Log.v(LOG_TAG, "Photo is called " + mPhotoFile.getName());
                 //upload the photo to the cloud
                 try {
                     InputStream photoStream = new FileInputStream(mPhotoFile);
-                    new AbelanaUpload(photoStream, "test");
+                    new AbelanaUpload(photoStream, mPhotoFile.getName());
                     Toast.makeText(getActivity(),
                             getActivity().getString(R.string.photo_upload_success_message), Toast.LENGTH_SHORT)
                             .show();
@@ -151,24 +165,23 @@ public class FeedActivity extends BaseActivity {
                 }
 
                 /* Create a media file name*/
-                //Encode localId from GitKit in base64
+                //Get localID
                 GitkitClient client = LoginActivity.client;
                 IdToken token = client.getSavedIdToken();
                 String localId = token.getLocalId();
-                byte[] localIdBytes = localId.getBytes();
-                String localIdB64 = encodeToString(localIdBytes, DEFAULT);
 
                 //Generate 8 digit random number and encode it in base64
-                Random rand = new Random();
+                SecureRandom rand = new SecureRandom();
+
                 StringBuilder rand8Dig = new StringBuilder(8);
                 for (int i=0; i < 8; i++) {
                     rand8Dig.append((char)('0' + rand.nextInt(10)));
                 }
                 String randNum = rand8Dig.toString();
                 byte[] randNumBytes = randNum.getBytes();
-                String randNumB64 = encodeToString(randNumBytes, DEFAULT);
+                String randNumB64 = encodeToString(randNumBytes, NO_PADDING | NO_WRAP | URL_SAFE);
 
-                String fileName = localIdB64 + '.' + randNumB64;
+                String fileName = localId + '.' + randNumB64;
 
                 //Determine if the photo is public or private
                 SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());

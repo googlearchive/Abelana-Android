@@ -1,50 +1,47 @@
-package com.google.samples.apps.cloudlaunch;
+package com.google.samples.apps.abelana;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-
-import com.squareup.picasso.Picasso;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by zafir on 10/18/14.
+ * Created by zafir on 10/19/14.
  */
-public class ProfileAdapter extends BaseAdapter {
-
+public class FriendsAdapter extends BaseAdapter {
     private Context mContext;
-    private final List<String> mUrls = new ArrayList<String>();
+    private final List<String> mUsers = new ArrayList<String>();
     private LayoutInflater mInflater;
 
-    public ProfileAdapter(Context context) {
+    public FriendsAdapter(Context context) {
         mContext = context;
 
         // Ensure we get a different ordering of images on each run.
-        Collections.addAll(mUrls, Data.URLS);
+        Collections.addAll(mUsers, Data.NAMES);
 
         // Triple up the list.
-        ArrayList<String> copy = new ArrayList<String>(mUrls);
-        mUrls.addAll(copy);
-        mUrls.addAll(copy);
-        mUrls.addAll(copy);
-        mUrls.addAll(copy);
-        mUrls.addAll(copy);
+        ArrayList<String> copy = new ArrayList<String>(mUsers);
+        mUsers.addAll(copy);
+        mUsers.addAll(copy);
+        mUsers.addAll(copy);
+        mUsers.addAll(copy);
+        mUsers.addAll(copy);
     }
 
     @Override
     public int getCount() {
-        return mUrls.size();
+        return mUsers.size();
     }
 
     @Override
     public String getItem(int position) {
-        return mUrls.get(position);
+        return mUsers.get(position);
     }
 
     @Override
@@ -60,15 +57,15 @@ public class ProfileAdapter extends BaseAdapter {
 
         //set the view to the list item layout
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.list_item_profile, null);
+            convertView = mInflater.inflate(R.layout.list_item_friends, null);
         }
 
-        ImageView imageView = (ImageView) convertView.findViewById(R.id.profile_photo);
+        TextView textView = (TextView) convertView.findViewById(R.id.textview_friend);
 
         //add the image
-        String url = getItem(position);
-        Picasso.with(mContext).load(url).into(imageView);
+        String name = getItem(position);
+        textView.setText(name);
 
-        return imageView;
+        return convertView;
     }
 }

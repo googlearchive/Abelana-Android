@@ -1,4 +1,4 @@
-package com.google.samples.apps.cloudlaunch;
+package com.google.samples.apps.abelana;
 
 import org.json.JSONObject;
 
@@ -18,6 +18,9 @@ import retrofit.http.Path;
 public class AbelanaClient {
     private static final String API_URL = "https://endpoints-dot-abelana-222.appspot.com";
     private static final String LOG_TAG = AbelanaClient.class.getSimpleName();
+    public static final RestAdapter restAdapter = new RestAdapter.Builder()
+            .setEndpoint(API_URL)
+            .build();
 
 
     interface Refresh {
@@ -163,31 +166,33 @@ public class AbelanaClient {
 
     static class LoginResponse {
         String Status;
-        String Atok;
+        String ATok;
     }
 
     interface Login {
-        @GET("/login/{gittok}")
+        @GET("/user/{gittok}/login")
         void login(
                 @Path("gittok") String gittok,
                 Callback<LoginResponse> fred
         );
     }
+    Login mLogin = restAdapter.create(Login.class);
+
 
     public static void main(String... args) {
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(API_URL)
                 .build();
 
-        Timeline abelanaTimeline = restAdapter.create(Timeline.class);
+        //Timeline abelanaTimeline = restAdapter.create(Timeline.class);
 
-        Response timelineResponse = abelanaTimeline.timeline("LES001", "0");
-        System.out.println(timelineResponse);
+        //Response timelineResponse = abelanaTimeline.timeline("LES001", "0");
+        //System.out.println(timelineResponse);
 
         Login test = restAdapter.create(Login.class);
         test.login("Les", new Callback<LoginResponse>() {
                     public void success(LoginResponse l, Response r) {
-                        System.out.println(l.Status + " " + l.Atok);
+                        System.out.println(l.Status + " " + l.ATok);
                     }
 
                     public void failure(RetrofitError e) {

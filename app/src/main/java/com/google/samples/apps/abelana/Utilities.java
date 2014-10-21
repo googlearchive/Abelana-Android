@@ -1,7 +1,6 @@
-package com.google.samples.apps.cloudlaunch;
+package com.google.samples.apps.abelana;
 
 import com.google.identitytoolkit.client.GitkitClient;
-import com.google.samples.apps.cloudlaunch.gitkit.LoginActivity;
 
 /**
  * Created by zafir on 9/29/14.

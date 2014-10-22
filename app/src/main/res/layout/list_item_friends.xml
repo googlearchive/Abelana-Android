@@ -1,13 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/textview_friend"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:minHeight="?android:attr/listPreferredItemHeight"
-    android:gravity="center_vertical|center"
-    android:fontFamily="sans-serif-condensed"
-    android:textAppearance="?android:textAppearanceLarge"
-    android:text="test">
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:padding="24dp">
 
-</TextView>
+    <com.google.samples.apps.abelana.BezelImageView
+        android:id="@+id/profile_image"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/person_image_empty"
+        android:scaleType="centerCrop"
+        app:maskDrawable="@drawable/circle_mask"
+        />
+
+    <TextView
+        android:id="@+id/textview_friend"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:gravity="center_vertical|center"
+        android:minHeight="?android:attr/listPreferredItemHeight"
+        android:text="test"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:layout_weight="1">
+    </TextView>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_launcher"/>
+
+</LinearLayout>

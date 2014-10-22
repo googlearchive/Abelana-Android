@@ -2,6 +2,8 @@ package com.google.samples.apps.abelana;
 
 import org.json.JSONObject;
 
+import java.util.Date;
+
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -29,6 +31,7 @@ public class AbelanaClient {
                 @Path("atok") String atok
         );
     }
+
 
     interface Wipeout {
         @DELETE("/user/{atok}")
@@ -62,7 +65,7 @@ public class AbelanaClient {
     }
 
     interface FriendsList {
-        @GET("/user/{atok}/friends")
+        @GET("/user/{atok}/friend")
         JSONObject friends(
                 @Path("atok") String atok
         );
@@ -76,7 +79,7 @@ public class AbelanaClient {
     }
 
     interface AddFriend {
-        @PUT("/user/{atok}/friends/{friendid}")
+        @PUT("/user/{atok}/friend/{friendid}")
         JSONObject friendResponse(
                 @Path("atok") String atok,
                 @Path("friendid") String friendid
@@ -84,7 +87,7 @@ public class AbelanaClient {
     }
 
     interface GetFriend {
-        @GET("/friend/{atok}/{friendid}")
+        @GET("/user/{atok}/friend/{friendid}")
         JSONObject photo(
                 @Path("atok") String atok,
                 @Path("friendid") String friendid
@@ -92,7 +95,7 @@ public class AbelanaClient {
     }
 
     interface Register {
-        @PUT("/device/{atok}/{regid}")
+        @PUT("/user/{atok}/device/{regid}")
         JSONObject registerResponse(
                 @Path("atok") String atok,
                 @Path("regid") String regid
@@ -100,23 +103,15 @@ public class AbelanaClient {
     }
 
     interface Unregister {
-        @DELETE("/device/{atok}/{regid}")
+        @DELETE("/user/{atok}/device/{regid}")
         JSONObject registerResponse(
                 @Path("atok") String atok,
                 @Path("regid") String regid
         );
     }
 
-    interface Timeline {
-        @GET("/timeline/{atok}/{lastid}")
-        Response timeline(
-                @Path("atok") String atok,
-                @Path("lastid") String lastid
-        );
-    }
-
     interface MyProfile {
-        @GET("/profile/{atok}/{lastid}")
+        @GET("/user/{atok}/profile/{lastid}")
         JSONObject profile(
                 @Path("atok") String atok,
                 @Path("lastid") String lastid
@@ -124,10 +119,10 @@ public class AbelanaClient {
     }
 
     interface FriendsProfile {
-        @GET("/profile/{atok}/{userid}/{lastid}")
+        @GET("/user/{atok}/friend/{friendid}/profile/{lastid}")
         JSONObject profile(
                 @Path("atok") String atok,
-                @Path("userid") String userid,
+                @Path("friendid") String friendid,
                 @Path("lastid") String lastid
         );
     }
@@ -164,16 +159,38 @@ public class AbelanaClient {
         );
     }
 
+    static class TimelineEntry {
+        Date Date;
+        String UserID;
+        String PhotoID;
+        int Likes;
+    }
+
+    static class TimelineResponse {
+        String status;
+        TimelineEntry[] Entries;
+    }
+    interface Timeline {
+        @GET("/user/{atok}/timeline//{lastid}")
+        void timeline(
+                @Path("atok") String atok,
+                @Path("lastid") String lastid,
+                Callback<TimelineResponse> callback
+        );
+    }
+
     static class LoginResponse {
-        String Status;
-        String ATok;
+        String kind;
+        String atok;
     }
 
     interface Login {
-        @GET("/user/{gittok}/login")
+        @GET("/user/{gittok}/login/{displayName}/{photoUrl}")
         void login(
                 @Path("gittok") String gittok,
-                Callback<LoginResponse> fred
+                @Path("displayName") String displayName,
+                @Path("photoUrl") String photoUrl,
+                Callback<LoginResponse> callback
         );
     }
     Login mLogin = restAdapter.create(Login.class);
@@ -184,22 +201,26 @@ public class AbelanaClient {
                 .setEndpoint(API_URL)
                 .build();
 
-        //Timeline abelanaTimeline = restAdapter.create(Timeline.class);
+        Timeline abelanaTimeline = restAdapter.create(Timeline.class);
 
         //Response timelineResponse = abelanaTimeline.timeline("LES001", "0");
         //System.out.println(timelineResponse);
 
-        Login test = restAdapter.create(Login.class);
-        test.login("Les", new Callback<LoginResponse>() {
-                    public void success(LoginResponse l, Response r) {
-                        System.out.println(l.Status + " " + l.ATok);
-                    }
+        abelanaTimeline.timeline("LES001", "0", new Callback<TimelineResponse>() {
+            @Override
+            public void success(TimelineResponse timelineResponse, Response response) {
+                System.out.println("foo");
+                TimelineEntry[] arr = timelineResponse.Entries;
+                System.out.println(arr[0].Likes);
+                System.out.println(arr.length);
+            }
 
-                    public void failure(RetrofitError e) {
-                        System.out.println("failure");
-                    }
-                }
-        );
+            @Override
+            public void failure(RetrofitError error) {
+                error.getStackTrace();
+            }
+        });
+
 
         try {
             Thread.sleep(1500);
@@ -209,3 +230,27 @@ public class AbelanaClient {
 
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

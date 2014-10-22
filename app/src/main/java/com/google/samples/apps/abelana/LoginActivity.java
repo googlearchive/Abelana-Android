@@ -14,6 +14,8 @@ import com.google.identitytoolkit.client.GitkitClient;
 import com.google.identitytoolkit.model.Account;
 import com.google.identitytoolkit.model.IdToken;
 
+import org.apache.http.HttpStatus;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -110,13 +112,17 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
 
 
     private void showProfilePage(IdToken idToken, Account account) {
-        Log.v(LOG_TAG, "Token is: " + idToken.getTokenString() + " Account is: " + account.toString());
+        Log.v(LOG_TAG, "Token is: " + idToken.toString() + " Account is: " + account.toString());
 
         AbelanaClient abelanaClient = new AbelanaClient();
 
-        abelanaClient.mLogin.login(idToken.getTokenString(), new Callback<AbelanaClient.LoginResponse>() {
+        abelanaClient.mLogin.login(idToken.getTokenString(),
+                Utilities.base64Encoding(account.getDisplayName()),
+                Utilities.base64Encoding(account.getPhotoUrl()),
+                new Callback<AbelanaClient.LoginResponse>() {
             public void success(AbelanaClient.LoginResponse l, Response r) {
-                String aTok = l.ATok;
+                if (r.getStatus() == HttpStatus.SC_OK) {}
+                String aTok = l.atok;
                 Log.v(LOG_TAG, "DONE! Token is " + aTok);
                 AbelanaThings.start(getApplicationContext(), aTok);
                 Intent feedIntent = new Intent(getApplicationContext(), FeedActivity.class);

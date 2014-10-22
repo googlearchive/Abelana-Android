@@ -27,11 +27,6 @@ import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static android.util.Base64.NO_PADDING;
-import static android.util.Base64.NO_WRAP;
-import static android.util.Base64.URL_SAFE;
-import static android.util.Base64.encodeToString;
-
 
 public class FeedActivity extends BaseActivity {
     private final String LOG_TAG = FeedActivity.class.getSimpleName();
@@ -178,8 +173,9 @@ public class FeedActivity extends BaseActivity {
                     rand8Dig.append((char)('0' + rand.nextInt(10)));
                 }
                 String randNum = rand8Dig.toString();
-                byte[] randNumBytes = randNum.getBytes();
-                String randNumB64 = encodeToString(randNumBytes, NO_PADDING | NO_WRAP | URL_SAFE);
+
+                //byte[] randNumBytes = randNum.getBytes();
+                String randNumB64 = Utilities.base64Encoding(randNum);
 
                 String fileName = localId + '.' + randNumB64;
 

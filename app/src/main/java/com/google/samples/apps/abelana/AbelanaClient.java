@@ -1,8 +1,7 @@
 package com.google.samples.apps.abelana;
 
-import org.json.JSONObject;
 
-import java.util.Date;
+import org.json.JSONObject;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -160,24 +159,26 @@ public class AbelanaClient {
     }
 
     static class TimelineEntry {
-        Date Date;
-        String UserID;
-        String PhotoID;
-        int Likes;
+        Long created;
+        String userid;
+        String photoid;
+        int likes;
     }
 
     static class TimelineResponse {
-        String status;
-        TimelineEntry[] Entries;
+        String kind;
+        TimelineEntry[] entries;
     }
     interface Timeline {
-        @GET("/user/{atok}/timeline//{lastid}")
+        @GET("/user/{atok}/timeline/{lastid}")
         void timeline(
                 @Path("atok") String atok,
                 @Path("lastid") String lastid,
                 Callback<TimelineResponse> callback
         );
     }
+
+    Timeline mTimeline = restAdapter.create(Timeline.class);
 
     static class LoginResponse {
         String kind;
@@ -209,10 +210,14 @@ public class AbelanaClient {
         abelanaTimeline.timeline("LES001", "0", new Callback<TimelineResponse>() {
             @Override
             public void success(TimelineResponse timelineResponse, Response response) {
-                System.out.println("foo");
-                TimelineEntry[] arr = timelineResponse.Entries;
-                System.out.println(arr[0].Likes);
-                System.out.println(arr.length);
+                System.out.println(timelineResponse.kind);
+                System.out.println(timelineResponse.entries[0].photoid);
+                TimelineEntry[] arr = timelineResponse.entries;
+                for (TimelineEntry e: arr) {
+                    System.out.println(e.likes);
+                    System.out.println(e.photoid);
+                }
+                //System.out.println(arr.length);
             }
 
             @Override

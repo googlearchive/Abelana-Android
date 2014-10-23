@@ -120,24 +120,28 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
                 Utilities.base64Encoding(account.getDisplayName()),
                 Utilities.base64Encoding(account.getPhotoUrl()),
                 new Callback<AbelanaClient.LoginResponse>() {
-            public void success(AbelanaClient.LoginResponse l, Response r) {
-                if (r.getStatus() == HttpStatus.SC_OK) {}
-                String aTok = l.atok;
-                Log.v(LOG_TAG, "DONE! Token is " + aTok);
-                AbelanaThings.start(getApplicationContext(), aTok);
-                Intent feedIntent = new Intent(getApplicationContext(), FeedActivity.class);
-                //feedIntent.putExtra("aTok", aTok);
-                startActivity(feedIntent);
-                //remove login from the backstack
-                finish();
 
-            }
+                    public void success(AbelanaClient.LoginResponse l, Response r) {
+                        if (r.getStatus() == HttpStatus.SC_OK) {
+                        }
+                        String aTok = l.atok;
+                        Log.v(LOG_TAG, "DONE! Token is " + aTok);
+                        AbelanaThings.start(getApplicationContext(), aTok);
+                        //initialize feed data
+                        Data d = new Data(aTok);
+                        Intent feedIntent = new Intent(getApplicationContext(), FeedActivity.class);
+                        //feedIntent.putExtra("aTok", aTok);
+                        startActivity(feedIntent);
+                        //remove login from the backstack
+                        finish();
 
-            public void failure(RetrofitError e) {
-                Log.v(LOG_TAG, "Failure!");
-                Toast.makeText(getApplicationContext(), "Login failed!", Toast.LENGTH_LONG);
-            }
-        });
+                    }
+
+                    public void failure(RetrofitError e) {
+                        Log.v(LOG_TAG, "Failure!");
+                        Toast.makeText(getApplicationContext(), "Login failed!", Toast.LENGTH_LONG);
+                    }
+                });
 
 
     }

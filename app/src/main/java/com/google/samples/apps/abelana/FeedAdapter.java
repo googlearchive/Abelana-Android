@@ -18,20 +18,19 @@ import java.util.List;
  */
 public class FeedAdapter extends BaseAdapter {
     private Context mContext;
-    private final List<String> mUrls = new ArrayList<String>();
+    private List<String> mUrls = new ArrayList<String>();
     private final List<String> mNames = new ArrayList<String>();
-    private final List<Integer> mLikes = new ArrayList<Integer>();
+    private List<Integer> mLikes = new ArrayList<Integer>();
     private LayoutInflater mInflater;
 
     public FeedAdapter(Context context) {
         mContext = context;
         // Ensure we get a different ordering of images on each run.
-        Collections.addAll(mUrls, Data.URLS);
-        //for (int i = 0; i < 9; i++) {
-          //  mUrls.add(AbelanaThings.getImage("0001"));
-        //}
+        //Collections.addAll(mUrls, Data.URLS);
+        mUrls = Data.mUrls;
+        mLikes = Data.mLikes;
         Collections.addAll(mNames,Data.NAMES);
-        Collections.addAll(mLikes, Data.NUM_LIKES);
+
 
         // Triple up the list.
         ArrayList<String> copy = new ArrayList<String>(mUrls);

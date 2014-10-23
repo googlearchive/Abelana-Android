@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -19,14 +18,14 @@ import java.util.List;
 public class ProfileAdapter extends BaseAdapter {
 
     private Context mContext;
-    private final List<String> mUrls = new ArrayList<String>();
+    private List<String> mUrls = new ArrayList<String>();
     private LayoutInflater mInflater;
 
     public ProfileAdapter(Context context) {
         mContext = context;
 
         // Ensure we get a different ordering of images on each run.
-        Collections.addAll(mUrls, Data.URLS);
+        mUrls = Data.mUrls;
 
         // Triple up the list.
         ArrayList<String> copy = new ArrayList<String>(mUrls);

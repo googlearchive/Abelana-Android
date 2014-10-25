@@ -30,4 +30,9 @@ dependencies {
     compile 'joda-time:joda-time:2.3'
     compile 'com.squareup.picasso:picasso:2.3.2'
     compile 'com.squareup.retrofit:retrofit:1.7.0'
+    compile files('/Users/zafir/AndroidStudioProjects/GettingStartedWeekend-Android-v2/identitytoolkit_lib/identitytoolkit_fb.jar')
 }
+
+
+
+

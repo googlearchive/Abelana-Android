@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:background="@color/main_blue"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -10,30 +10,32 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity$PlaceholderFragment">
 
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_weight="5"
         android:text="@string/welcome_text"
-        android:fontFamily="sans-serif-condensed"
-        android:textAppearance="?android:textAppearanceLarge"
-        />
+        android:paddingLeft="48dp"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        android:textColor="@color/white"
+        android:gravity="bottom"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="9">
+        android:layout_weight="4"
+        android:layout_gravity="top">
 
         <Button
             android:id="@+id/sign_in_button"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/button_bg"
+            android:layout_weight="2"
+            android:background="@color/white"
             android:text="@string/sign_in_label"
-            android:textColor="@android:color/white" />
+            android:textColor="@color/main_blue" />
     </LinearLayout>
+
 
 </LinearLayout>
 

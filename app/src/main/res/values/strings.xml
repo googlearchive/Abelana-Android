@@ -25,6 +25,9 @@
     <string name="pref_profile_visibility_title">Make my profile private</string>
     <string name="pref_profile_visibility_summary">Only approved followers will see your photos</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="action_home">Home</string>
+    <string name="action_profile">My Profile</string>
+    <string name="action_friends">Friends</string>
 
     <!-- Upload test strings-->
     <string name="service_account">416523807683-87kpuu2fsvov4hbg9j8f8808an8h2k2b@developer.gserviceaccount.com</string>

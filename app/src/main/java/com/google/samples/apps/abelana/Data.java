@@ -1,5 +1,7 @@
 package com.google.samples.apps.abelana;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +16,11 @@ final class Data {
     public static final List<String> mUrls = new ArrayList<String>();
     public static final List<String> mNames = new ArrayList<String>();
     public static final List<Integer> mLikes = new ArrayList<Integer>();
+
+    public List<DrawerItem> mNavItems = new ArrayList<DrawerItem>();
+
+
+
     static String[] URLS = {
             AbelanaThings.getImage("0001"),
             AbelanaThings.getImage("0002"),
@@ -24,6 +31,13 @@ final class Data {
             AbelanaThings.getImage("0007"),
             AbelanaThings.getImage("0008"),
             AbelanaThings.getImage("0009")
+    };
+    // icons for navdrawer mNavItems (indices must correspond to above array)
+    public static final int[] NAVDRAWER_ICON_RES_ID = new int[] {
+            R.drawable.ic_home_inactive,
+            R.drawable.ic_profile_inactive,
+            R.drawable.ic_friends_inactive,
+            R.drawable.ic_settings_inactive,
     };
 
     static final String[] NAMES = {
@@ -57,5 +71,12 @@ final class Data {
 
             }
         });
+    }
+
+    public Data(Context context) {
+        mNavItems.add(new DrawerItem("Home", R.drawable.ic_home_inactive));
+        mNavItems.add(new DrawerItem("My Profile", R.drawable.ic_profile_inactive));
+        mNavItems.add(new DrawerItem("Friends", R.drawable.ic_friends_inactive));
+        mNavItems.add(new DrawerItem("Settings", R.drawable.ic_settings_inactive));
     }
 }

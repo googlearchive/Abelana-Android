@@ -13,7 +13,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 /**
@@ -66,9 +65,11 @@ public class BaseActivity extends Activity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
-        // set up the drawer's list view with items and click listener
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, mNavItems));
+        //initialize Data class to retrieve navigation drawer icons and text
+        Data data = new Data(getApplicationContext());
+        // set up the drawer's list view with mNavItems and click listener
+        mDrawerList.setAdapter(new NavDrawerAdapter(getApplicationContext(), R.layout.drawer_list_item,
+                data.mNavItems));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         // enable ActionBar app icon to behave as action to toggle nav drawer
@@ -80,7 +81,7 @@ public class BaseActivity extends Activity {
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
                 mDrawerLayout,         /* DrawerLayout object */
-                R.drawable.button_bg,  /* nav drawer image to replace 'Up' caret */
+                R.drawable.ic_drawer,  /* nav drawer image to replace 'Up' caret */
                 R.string.app_name,  /* "open drawer" description for accessibility */
                 R.string.app_name  /* "close drawer" description for accessibility */
         ) {
@@ -111,7 +112,7 @@ public class BaseActivity extends Activity {
     /* Called whenever we call invalidateOptionsMenu() */
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        // If the nav drawer is open, hide action items related to the content view
+        // If the nav drawer is open, hide action mNavItems related to the content view
         boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
         //menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
         return super.onPrepareOptionsMenu(menu);

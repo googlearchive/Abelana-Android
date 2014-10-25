@@ -4,24 +4,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <TextView
-        android:id="@+id/feed_username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-condensed"
-        android:textAppearance="?android:textAppearanceMedium"
-        android:text="Zafir Khan"/>
+
     <com.google.samples.apps.abelana.SquaredImageView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/feed_photo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitCenter"
-        android:src="@drawable/button_bg"/>
-    <TextView
-        android:id="@+id/feed_likes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-condensed"
-        android:textAppearance="?android:textAppearanceMedium"
-        android:text="5 likes"/>
+        android:src="@drawable/button_bg" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/feed_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:text="Zafir Khan"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:layout_weight="3"
+            android:paddingLeft="16dp"
+            />
+
+        <TextView
+            android:id="@+id/feed_likes"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="sans-serif-condensed"
+            android:text="5 likes"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:layout_weight="1"
+            android:gravity="center"/>
+    </LinearLayout>
 </LinearLayout>

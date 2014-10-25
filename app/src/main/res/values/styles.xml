@@ -1,8 +1,17 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="android:Theme.Holo.Light"/>
+    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.FoodSaver</item>
+    </style>
 
+    <style name="ActionBar.Solid.FoodSaver" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/main_blue</item>
+        <item name="android:icon">@android:color/transparent</item> <!-- Hides the app icon -->
+    </style>
 
+    <style name="CustomTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
 
 </resources>

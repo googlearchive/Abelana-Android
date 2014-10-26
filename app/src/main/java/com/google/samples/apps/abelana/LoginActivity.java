@@ -1,5 +1,6 @@
 package com.google.samples.apps.abelana;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -32,7 +33,8 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
+        ActionBar actionBar = getActionBar();
+        actionBar.hide();
         // Step 1: Create a GitkitClient.
         // The configurations are set in the AndroidManifest.xml. You can also set or overwrite them
         // by calling the corresponding setters on the GitkitClient builder.
@@ -57,7 +59,7 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
 
 
         // Step 2: Check if there is an already signed in user.
-        // If there is an already signed in user, show the profile page and welcome message.
+        // If there is an already signed in user, show the ic_profile page and welcome message.
         // Otherwise, show a sign in button.
         //
 

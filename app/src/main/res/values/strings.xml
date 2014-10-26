@@ -6,7 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="profile_picture_desc">Profile picture</string>
     <string name="welcome">Welcome to Gitkit Demo</string>
-    <string name="sign_in_label">Sign in</string>
+    <string name="sign_in_label">SIGN IN</string>
     <string name="manage_account_label">Manage account</string>
     <string name="sign_out_label">Sign out</string>
     <string name="facebook_app_id">916113918402164</string>
@@ -29,7 +29,7 @@
     <string name="action_profile">My Profile</string>
     <string name="action_friends">Friends</string>
 
-    <!-- Upload test strings-->
+    <!-- Upload navdrawer_header strings-->
     <string name="service_account">416523807683-87kpuu2fsvov4hbg9j8f8808an8h2k2b@developer.gserviceaccount.com</string>
     <string name="upload_bucket">abelana-in</string>
     <string name="display_bucket">abelana</string>

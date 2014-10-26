@@ -110,7 +110,7 @@ public class AbelanaClient {
     }
 
     interface MyProfile {
-        @GET("/user/{atok}/profile/{lastid}")
+        @GET("/user/{atok}/ic_profile/{lastid}")
         JSONObject profile(
                 @Path("atok") String atok,
                 @Path("lastid") String lastid
@@ -118,7 +118,7 @@ public class AbelanaClient {
     }
 
     interface FriendsProfile {
-        @GET("/user/{atok}/friend/{friendid}/profile/{lastid}")
+        @GET("/user/{atok}/friend/{friendid}/ic_profile/{lastid}")
         JSONObject profile(
                 @Path("atok") String atok,
                 @Path("friendid") String friendid,

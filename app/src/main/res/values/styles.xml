@@ -3,6 +3,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         <item name="android:actionBarStyle">@style/ActionBar.Solid.FoodSaver</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_arrow</item>
     </style>
 
     <style name="ActionBar.Solid.FoodSaver" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
@@ -11,7 +12,7 @@
     </style>
 
     <style name="CustomTextViewStyle" parent="android:Widget.TextView">
-        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
 </resources>

@@ -3,6 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="16dp"
     android:orientation="vertical">
 
     <com.google.samples.apps.abelana.SquaredImageView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -22,22 +23,32 @@
             android:id="@+id/feed_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed"
+            android:fontFamily="sans-serif"
+            android:textSize="14sp"
+            android:textColor="@color/black"
             android:text="Zafir Khan"
-            android:textAppearance="?android:textAppearanceMedium"
             android:layout_weight="3"
-            android:paddingLeft="16dp"
+            android:gravity="start|center_vertical"
+            android:layout_gravity="start|center_vertical"
             />
 
         <TextView
             android:id="@+id/feed_likes"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
-            android:layout_gravity="center_vertical"
-            android:fontFamily="sans-serif-condensed"
+            android:textSize="14sp"
+            android:textColor="@color/black"
             android:text="5 likes"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:layout_weight="1"
-            android:gravity="center"/>
+            android:gravity="right|center_vertical"
+            android:layout_gravity="right|center_vertical"
+            android:layout_weight="1"/>
+        
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:gravity="start|center_vertical"
+            android:layout_gravity="start|center_vertical"
+            android:src="@drawable/ic_favorite_inactive"/>
     </LinearLayout>
 </LinearLayout>

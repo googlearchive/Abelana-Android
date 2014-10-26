@@ -11,23 +11,31 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10 followers"
+            android:text="10 Followers"
             android:paddingRight="15dp"
             android:paddingLeft="30dp"
-            android:textStyle="bold"
             android:layout_gravity="center_vertical"
-            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="14sp"
+            android:textStyle="bold"
             android:textColor="@color/gray"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="14sp"
             android:layout_gravity="center_vertical"
-            android:text="10 following"
-            android:textAppearance="@android:style/TextAppearance.Medium"
-            android:textColor="@color/gray"/>
+            android:text="10 Following"
+            android:textColor="@color/gray"
+            android:textStyle="bold"/>
 
         </LinearLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.2dp"
+        android:id="@+id/separator"
+        android:visibility="visible"
+        android:background="@android:color/darker_gray"/>
     <GridView
         android:id="@+id/gridview"
         android:layout_width="match_parent"

@@ -67,8 +67,10 @@ public class BaseActivity extends Activity {
 
         //initialize Data class to retrieve navigation drawer icons and text
         Data data = new Data(getApplicationContext());
-        // set up the drawer's list view with mNavItems and click listener
-        mDrawerList.setAdapter(new NavDrawerAdapter(getApplicationContext(), R.layout.drawer_list_item,
+//        View header = View.inflate(this, R.layout.navdrawer_header, null);
+//        // set up the drawer's list view with mNavItems and click listener
+//        mDrawerList.addHeaderView(header, null, false);
+        mDrawerList.setAdapter(new NavDrawerAdapter(getApplicationContext(), R.layout.list_item_navdrawer,
                 data.mNavItems));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 

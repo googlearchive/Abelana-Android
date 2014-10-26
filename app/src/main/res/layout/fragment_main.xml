@@ -18,6 +18,7 @@
         android:paddingLeft="48dp"
         android:textAppearance="@android:style/TextAppearance.Large"
         android:textColor="@color/white"
+        android:paddingBottom="16dp"
         android:gravity="bottom"/>
 
     <LinearLayout

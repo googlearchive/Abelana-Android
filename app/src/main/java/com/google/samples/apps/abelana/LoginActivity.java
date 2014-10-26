@@ -121,9 +121,9 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
         abelanaClient.mLogin.login(idToken.getTokenString(),
                 Utilities.base64Encoding(account.getDisplayName()),
                 Utilities.base64Encoding(account.getPhotoUrl()),
-                new Callback<AbelanaClient.LoginResponse>() {
+                new Callback<AbelanaClient.ATOKJson>() {
 
-                    public void success(AbelanaClient.LoginResponse l, Response r) {
+                    public void success(AbelanaClient.ATOKJson l, Response r) {
                         if (r.getStatus() == HttpStatus.SC_OK) {
                         }
                         String aTok = l.atok;

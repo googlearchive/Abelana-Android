@@ -51,9 +51,9 @@ final class Data {
 
     public Data(String aTok) {
         AbelanaClient abelanaClient = new AbelanaClient();
-        abelanaClient.mTimeline.timeline(aTok, "0", new Callback<AbelanaClient.TimelineResponse>() {
+        abelanaClient.mTimeline.timeline(aTok, "0", new Callback<AbelanaClient.Timeline>() {
             @Override
-            public void success(AbelanaClient.TimelineResponse timelineResponse, Response response) {
+            public void success(AbelanaClient.Timeline timelineResponse, Response response) {
                 for (AbelanaClient.TimelineEntry e: timelineResponse.entries) {
                     mUrls.add(AbelanaThings.getImage(e.photoid));
                     mLikes.add(e.likes);

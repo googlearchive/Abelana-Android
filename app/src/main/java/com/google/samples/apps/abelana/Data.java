@@ -57,6 +57,7 @@ final class Data {
                 for (AbelanaClient.TimelineEntry e: timelineResponse.entries) {
                     mUrls.add(AbelanaThings.getImage(e.photoid));
                     mLikes.add(e.likes);
+                    mNames.add("Jennifer");
                 }
             }
 

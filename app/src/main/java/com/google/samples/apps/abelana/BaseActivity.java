@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.squareup.picasso.Picasso;
+
 /**
  * This example illustrates a common usage of the DrawerLayout widget
  * in the Android support library.
@@ -51,10 +53,10 @@ public class BaseActivity extends Activity {
     private CharSequence mTitle;
     private String[] mNavItems;
 
-    protected static final int NAVDRAWER_ITEM_HOME = 0;
-    protected static final int NAVDRAWER_ITEM_PROFILE = 1;
-    protected static final int NAVDRAWER_ITEM_FRIENDS = 2;
-    protected static final int NAVDRAWER_ITEM_SETTINGS = 3;
+    protected static final int NAVDRAWER_ITEM_HOME = 1;
+    protected static final int NAVDRAWER_ITEM_PROFILE = 2;
+    protected static final int NAVDRAWER_ITEM_FRIENDS = 3;
+    protected static final int NAVDRAWER_ITEM_SETTINGS = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +69,12 @@ public class BaseActivity extends Activity {
 
         //initialize Data class to retrieve navigation drawer icons and text
         Data data = new Data(getApplicationContext());
-//        View header = View.inflate(this, R.layout.navdrawer_header, null);
-//        // set up the drawer's list view with mNavItems and click listener
-//        mDrawerList.addHeaderView(header, null, false);
+        View header = View.inflate(this, R.layout.navdrawer_header, null);
+        BezelImageView imageView = (BezelImageView) header.findViewById(R.id.profile_image);
+        Picasso.with(getApplicationContext()).load(LoginActivity.client.getSavedAccount().getPhotoUrl())
+                .into(imageView);
+        // set up the drawer's list view with mNavItems and click listener
+        mDrawerList.addHeaderView(header, null, false);
         mDrawerList.setAdapter(new NavDrawerAdapter(getApplicationContext(), R.layout.list_item_navdrawer,
                 data.mNavItems));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
@@ -100,7 +105,7 @@ public class BaseActivity extends Activity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         if (savedInstanceState == null) {
-            selectItem(0);
+            selectItem(1);
         }
     }
 

@@ -9,6 +9,7 @@
         <item name="2">@string/network_entries_item_2</item>
     </string-array>
     <string-array name="nav_array">
+        <item></item> <!--Dummy element that's never accessed. This is needed for the headerview -->
         <item>Home</item>
         <item>My profile</item>
         <item>Friends</item>

@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -19,7 +18,7 @@ import java.util.List;
 public class FeedAdapter extends BaseAdapter {
     private Context mContext;
     private List<String> mUrls = new ArrayList<String>();
-    private final List<String> mNames = new ArrayList<String>();
+    private List<String> mNames = new ArrayList<String>();
     private List<Integer> mLikes = new ArrayList<Integer>();
     private LayoutInflater mInflater;
 
@@ -29,19 +28,7 @@ public class FeedAdapter extends BaseAdapter {
         //Collections.addAll(mUrls, Data.URLS);
         mUrls = Data.mUrls;
         mLikes = Data.mLikes;
-        Collections.addAll(mNames,Data.NAMES);
-
-
-        // Triple up the list.
-        ArrayList<String> copy = new ArrayList<String>(mUrls);
-        ArrayList<String> copyNames = new ArrayList<String>(mNames);
-        ArrayList<Integer> copyLikes = new ArrayList<Integer>(mLikes);
-        mUrls.addAll(copy);
-        mUrls.addAll(copy);
-        mNames.addAll(copyNames);
-        mNames.addAll(copyNames);
-        mLikes.addAll(copyLikes);
-        mLikes.addAll(copyLikes);
+        mNames = Data.mNames;
     }
 
     @Override

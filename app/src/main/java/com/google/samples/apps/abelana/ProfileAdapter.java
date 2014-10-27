@@ -26,14 +26,6 @@ public class ProfileAdapter extends BaseAdapter {
 
         // Ensure we get a different ordering of images on each run.
         mUrls = Data.mUrls;
-
-        // Triple up the list.
-        ArrayList<String> copy = new ArrayList<String>(mUrls);
-        mUrls.addAll(copy);
-        mUrls.addAll(copy);
-        mUrls.addAll(copy);
-        mUrls.addAll(copy);
-        mUrls.addAll(copy);
     }
 
     @Override

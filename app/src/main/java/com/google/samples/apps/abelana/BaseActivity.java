@@ -55,7 +55,7 @@ public class BaseActivity extends Activity {
 
     protected static final int NAVDRAWER_ITEM_HOME = 1;
     protected static final int NAVDRAWER_ITEM_PROFILE = 2;
-    protected static final int NAVDRAWER_ITEM_FRIENDS = 3;
+    protected static final int NAVDRAWER_ITEM_FOLLOWING = 3;
     protected static final int NAVDRAWER_ITEM_SETTINGS = 4;
 
     @Override
@@ -154,7 +154,7 @@ public class BaseActivity extends Activity {
             Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
             startActivity(intent);
         }
-        if (position == NAVDRAWER_ITEM_FRIENDS) {
+        if (position == NAVDRAWER_ITEM_FOLLOWING) {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.replace(R.id.content_frame, new FriendsFragment())
             .commit();

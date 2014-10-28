@@ -1,6 +1,7 @@
 package com.google.samples.apps.abelana;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +17,10 @@ final class Data {
     public static final List<String> mUrls = new ArrayList<String>();
     public static final List<String> mNames = new ArrayList<String>();
     public static final List<Integer> mLikes = new ArrayList<Integer>();
+    private final String LOG_TAG = Data.class.getSimpleName();
 
     public List<DrawerItem> mNavItems = new ArrayList<DrawerItem>();
-
+    public static String aTok;
 
 
     static String[] URLS = {
@@ -50,14 +52,17 @@ final class Data {
     };
 
     public Data(String aTok) {
+        this.aTok = aTok;
+        Log.v(LOG_TAG, "Authentication token is " + aTok);
         AbelanaClient abelanaClient = new AbelanaClient();
+
         abelanaClient.mTimeline.timeline(aTok, "0", new Callback<AbelanaClient.Timeline>() {
             @Override
             public void success(AbelanaClient.Timeline timelineResponse, Response response) {
                 for (AbelanaClient.TimelineEntry e: timelineResponse.entries) {
                     mUrls.add(AbelanaThings.getImage(e.photoid));
                     mLikes.add(e.likes);
-                    mNames.add("Jennifer");
+                    mNames.add(e.name);
                 }
             }
 
@@ -71,7 +76,7 @@ final class Data {
     public Data(Context context) {
         mNavItems.add(new DrawerItem("Home", R.drawable.ic_home));
         mNavItems.add(new DrawerItem("My Profile", R.drawable.ic_profile));
-        mNavItems.add(new DrawerItem("Friends", R.drawable.ic_friends));
+        mNavItems.add(new DrawerItem("Following", R.drawable.ic_friends));
         mNavItems.add(new DrawerItem("Settings", R.drawable.ic_settings_inactive));
     }
 }

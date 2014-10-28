@@ -43,12 +43,14 @@
             android:layout_gravity="right|center_vertical"
             android:layout_weight="1"/>
         
-        <ImageView
+        <ImageButton
+            android:id="@+id/like_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight=".5"
             android:gravity="start|center_vertical"
             android:layout_gravity="start|center_vertical"
+            android:background="@null"
             android:src="@drawable/ic_favorite_inactive"/>
     </LinearLayout>
 </LinearLayout>

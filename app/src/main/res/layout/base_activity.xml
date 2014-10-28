@@ -11,10 +11,9 @@
 
     <!-- The navigation drawer -->
     <ListView android:id="@+id/left_drawer"
-        android:layout_width="260dp"
+        android:layout_width="300dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:paddingTop="20dp"
         android:choiceMode="singleChoice"
         android:divider="@android:color/transparent"
         android:dividerHeight="20dp"

@@ -137,6 +137,18 @@ public class AbelanaThings  {
 
     }
 
+    public static String extractPhotoID(String url) {
+        String beginTarget = "abelana/";
+        String endTarget = ".webp";
+        int beginIndex = url.indexOf(beginTarget) + beginTarget.length();
+        int endIndex = url.indexOf(endTarget);
+        if (beginIndex != -1 && endIndex != -1) {
+            return url.substring(beginIndex, endIndex);
+        } else {
+            return null;
+        }
+    }
+
     private static Signature signer;     // Cache the Signature
 
     private static String signData(String data) {

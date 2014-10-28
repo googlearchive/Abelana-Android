@@ -1,16 +1,22 @@
 package com.google.samples.apps.abelana;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by zafir on 10/15/14.
@@ -21,6 +27,7 @@ public class FeedAdapter extends BaseAdapter {
     private List<String> mNames = new ArrayList<String>();
     private List<Integer> mLikes = new ArrayList<Integer>();
     private LayoutInflater mInflater;
+    String LOG_TAG = FeedAdapter.class.getSimpleName();
 
     public FeedAdapter(Context context) {
         mContext = context;
@@ -58,7 +65,7 @@ public class FeedAdapter extends BaseAdapter {
         }
 
         //add the image
-        String url = getItem(position);
+        final String url = getItem(position);
         SquaredImageView imageView = (SquaredImageView) convertView.findViewById(R.id.feed_photo);
         Picasso.with(mContext).load(url).into(imageView);
 
@@ -69,8 +76,34 @@ public class FeedAdapter extends BaseAdapter {
 
         //add the number of mLikes
         String numLikes = mLikes.get(position).toString();
-        TextView likesView = (TextView) convertView.findViewById(R.id.feed_likes);
+        final TextView likesView = (TextView) convertView.findViewById(R.id.feed_likes);
         likesView.setText(numLikes + " likes");
+
+        //add like button listener
+        ImageButton likeButton = (ImageButton) convertView.findViewById(R.id.like_button);
+        likeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AbelanaClient abelanaClient = new AbelanaClient();
+                String photoId = AbelanaThings.extractPhotoID(url);
+                Log.v(LOG_TAG, "Button listener photo ID is " + photoId);
+                if (photoId != null) {
+                    abelanaClient.mLike.like(Data.aTok, photoId, new Callback<AbelanaClient.Status>() {
+                        @Override
+                        public void success(AbelanaClient.Status status, Response response) {
+                            String text = (String) likesView.getText();
+                            int numLikes = Integer.parseInt(text.substring(0, 1)) + 1;
+                            likesView.setText(numLikes + " likes");
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+                            error.printStackTrace();
+                        }
+                    });
+                }
+            }
+        });
 
         return convertView;
     }

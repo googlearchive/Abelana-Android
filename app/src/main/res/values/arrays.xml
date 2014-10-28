@@ -12,7 +12,7 @@
         <item></item> <!--Dummy element that's never accessed. This is needed for the headerview -->
         <item>Home</item>
         <item>My profile</item>
-        <item>Friends</item>
-        <item>@string/action_settings</item>
+        <item>Following</item>
+        <item>Settings</item>
     </string-array>
 </resources>

@@ -24,6 +24,7 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -56,12 +57,12 @@
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:name="com.google.samples.apps.abelana.BaseActivity"
+            android:name=".BaseActivity"
             android:label="@string/title_activity_navigation_drawer" />
         <activity
-            android:name="com.google.samples.apps.abelana.SettingsActivity"
+            android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName="com.google.samples.apps.abelana.FeedActivity" >
+            android:parentActivityName=".FeedActivity" >
 
             <!--
             This intent filter indicates to the system that this is the activity that controls your application's data usage.
@@ -79,10 +80,19 @@
                 android:value="com.google.samples.apps.cloudlaunch.MainActivity" />
         </activity>
         <activity
-            android:name="com.google.samples.apps.abelana.FeedActivity"
+            android:name=".FeedActivity"
             android:label="@string/title_activity_feed" >
-            <meta-data android:name="android.app.searchable"
+            <meta-data
+                android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
+        </activity>
+        <activity
+            android:name=".FriendProfileActivity"
+            android:label="@string/title_activity_friend_profile"
+            android:parentActivityName=".FeedActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.google.samples.apps.abelana.FeedActivity" />
         </activity>
     </application>
 

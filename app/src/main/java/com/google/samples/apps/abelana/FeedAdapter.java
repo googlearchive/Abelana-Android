@@ -33,7 +33,7 @@ public class FeedAdapter extends BaseAdapter {
         mContext = context;
         // Ensure we get a different ordering of images on each run.
         //Collections.addAll(mUrls, Data.URLS);
-        mUrls = Data.mUrls;
+        mUrls = Data.mFeedUrls;
         mLikes = Data.mLikes;
         mNames = Data.mNames;
     }

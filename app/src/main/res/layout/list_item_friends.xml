@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="80dp"
     android:orientation="horizontal"
     android:padding="16dp">
 
     <com.google.samples.apps.abelana.BezelImageView
-        android:id="@+id/profile_image"
+        xmlns:abelana="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/friend_image"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:src="@drawable/person_image_empty"
         android:scaleType="centerCrop"
-        app:maskDrawable="@drawable/circle_mask"
+        abelana:maskDrawable="@drawable/circle_mask"
         />
 
     <TextView

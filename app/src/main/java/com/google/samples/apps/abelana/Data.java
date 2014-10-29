@@ -1,7 +1,6 @@
 package com.google.samples.apps.abelana;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +13,17 @@ import retrofit.client.Response;
  * Created by zafir on 10/15/14.
  */
 final class Data {
-    public static final List<String> mUrls = new ArrayList<String>();
-    public static final List<String> mNames = new ArrayList<String>();
-    public static final List<Integer> mLikes = new ArrayList<Integer>();
+    public static List<String> mFeedUrls = new ArrayList<String>();
+    public static List<String> mNames = new ArrayList<String>();
+    public static List<Integer> mLikes = new ArrayList<Integer>();
     private final String LOG_TAG = Data.class.getSimpleName();
+    public static String mEmail;
+    public static String mDisplayName;
+    public static List<String> mProfileUrls = new ArrayList<String>();
+    public static List<String> mFollowingNames = new ArrayList<String>();
+    public static AbelanaClient mClient;
+    public static List<String> mFollowingUrls = new ArrayList<String>();
+    public static List<String> mFollowingProfileUrls;
 
     public List<DrawerItem> mNavItems = new ArrayList<DrawerItem>();
     public static String aTok;
@@ -51,18 +57,68 @@ final class Data {
     static final Integer[] NUM_LIKES = {0, 1, 2, 3, 4, 5, 6, 7, 8
     };
 
-    public Data(String aTok) {
-        this.aTok = aTok;
-        Log.v(LOG_TAG, "Authentication token is " + aTok);
-        AbelanaClient abelanaClient = new AbelanaClient();
+    public static void getTimeline() {
+        mClient = new AbelanaClient();
 
-        abelanaClient.mTimeline.timeline(aTok, "0", new Callback<AbelanaClient.Timeline>() {
+        mClient.mTimeline.timeline(aTok, "0", new Callback<AbelanaClient.Timeline>() {
             @Override
             public void success(AbelanaClient.Timeline timelineResponse, Response response) {
                 for (AbelanaClient.TimelineEntry e: timelineResponse.entries) {
-                    mUrls.add(AbelanaThings.getImage(e.photoid));
+                    mFeedUrls.add(AbelanaThings.getImage(e.photoid));
                     mLikes.add(e.likes);
                     mNames.add(e.name);
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                error.printStackTrace();
+            }
+        });
+    }
+
+    public static void getProfile() {
+
+
+        mClient.mGetMyProfile.getMyProfile(aTok, "0", new Callback<AbelanaClient.Timeline>() {
+            @Override
+            public void success(AbelanaClient.Timeline timeline, Response response) {
+                for (AbelanaClient.TimelineEntry e: timeline.entries) {
+                    mProfileUrls.add(AbelanaThings.getImage(e.photoid));
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                error.printStackTrace();
+            }
+        });
+    }
+
+    public static void getFProfile(String id) {
+        mFollowingProfileUrls = new ArrayList<String>();
+        mClient.mFProfile.fProfile(aTok, id, "0", new Callback<AbelanaClient.Timeline>() {
+            @Override
+            public void success(AbelanaClient.Timeline timeline, Response response) {
+                for (AbelanaClient.TimelineEntry e: timeline.entries) {
+                    mFollowingProfileUrls.add(AbelanaThings.getImage(e.photoid));
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
+    }
+
+    public static void getFollowing() {
+        mClient.mGetFollowing.getFollowing(aTok, new Callback<AbelanaClient.Persons>() {
+            @Override
+            public void success(AbelanaClient.Persons persons, Response response) {
+                for (AbelanaClient.Person p: persons.persons) {
+                    mFollowingNames.add(p.name);
+                    mFollowingUrls.add(AbelanaThings.getImage(p.personid));
                 }
             }
 

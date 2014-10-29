@@ -32,14 +32,14 @@ public class AbelanaClient {
         String status;
     }
 
-    static class Followers {
+    static class Persons {
         String kind;
-        Follower[] followers;
+        Person[] persons;
     }
 
-    static class Follower {
+    static class Person {
         String kind;
-        String followerid;
+        String personid;
         String email;
         String name;
     }
@@ -54,8 +54,9 @@ public class AbelanaClient {
     }
 
     static class Comment {
-        String followerid;
+        String personid;
         String text;
+        Long time;
     }
 
     static class Comments {
@@ -104,7 +105,7 @@ public class AbelanaClient {
     }
 
     interface ImportFacebook {
-        @POST("/user/{atok}/facebook/{fbkey}")
+        @POST("/user/{atok}/following/facebook/{fbkey}")
         void importResponse(
                 @Path("atok") String atok,
                 @Path("fbkey") String fbkey,
@@ -113,7 +114,7 @@ public class AbelanaClient {
     }
 
     interface ImportGPlus {
-        @POST("/user/{atok}/plus/{plkey}")
+        @POST("/user/{atok}/following/plus/{plkey}")
         void importResponse(
                 @Path("atok") String atok,
                 @Path("plkey") String plkey,
@@ -122,7 +123,7 @@ public class AbelanaClient {
     }
 
     interface ImportYahoo {
-        @POST("/user/{atok}/yahoo/{ykey}")
+        @POST("/user/{atok}/following/yahoo/{ykey}")
         void importResponse(
                 @Path("atok") String atok,
                 @Path("ykey") String ykey,
@@ -130,29 +131,29 @@ public class AbelanaClient {
         );
     }
 
-    interface GetFollowers {
-        @GET("/user/{atok}/follower")
-        void getFriendsList(
+    interface GetFollowing {
+        @GET("/user/{atok}/following")
+        void getFollowing(
                 @Path("atok") String atok,
-                Callback<Followers> callback
+                Callback<Persons> callback
         );
     }
 
-    interface AddFollower {
-        @PUT("/user/{atok}/follower/{followerid}")
+    interface FollowByID {
+        @PUT("/user/{atok}/following/{personid}")
         void addFriend(
                 @Path("atok") String atok,
-                @Path("followerid") String followerid,
+                @Path("personid") String personid,
                 Callback<Status> callback
         );
     }
 
-    interface GetFollower {
-        @GET("/user/{atok}/follower/{followerid}")
+    interface GetPerson {
+        @GET("/user/{atok}/following/{personid}")
         void getFriend(
                 @Path("atok") String atok,
-                @Path("followerid") String followerid,
-                Callback<Follower> callback
+                @Path("personid") String personid,
+                Callback<Person> callback
         );
     }
 
@@ -193,20 +194,20 @@ public class AbelanaClient {
     }
 
     interface GetMyProfile {
-        @GET("/user/{atok}/profile/{lastid}")
+        @GET("/user/{atok}/profile/{lastdate}")
         void getMyProfile(
                 @Path("atok") String atok,
-                @Path("lastid") String lastid,
+                @Path("lastdate") String lastdate,
                 Callback<Timeline> callback
         );
     }
 
     interface FProfile {
-        @GET("/user/{atok}/follower/{followerid}/profile/{lastid}")
-        void friendProfile(
+        @GET("/user/{atok}/following/{personid}/profile/{lastdate}")
+        void fProfile(
                 @Path("atok") String atok,
-                @Path("followerid") String followerid,
-                @Path("lastid") String lastid,
+                @Path("personid") String personid,
+                @Path("lastdate") String lastdate,
                 Callback<Timeline> callback
         );
     }
@@ -268,27 +269,31 @@ public class AbelanaClient {
 
     //Create the REST adapters. The app will use this variables
     Login mLogin = restAdapter.create(Login.class);
+    Wipeout mWipeout = restAdapter.create(Wipeout.class);
+    GetFollowing mGetFollowing = restAdapter.create(GetFollowing.class);
+    GetTimeline mTimeline = restAdapter.create(GetTimeline.class);
+    GetMyProfile mGetMyProfile = restAdapter.create(GetMyProfile.class);
+    FProfile mFProfile = restAdapter.create(FProfile.class);
+    Like mLike = restAdapter.create(Like.class);
+    Unlike mUnlike = restAdapter.create(Unlike.class);
+    Follow mFollow = restAdapter.create(Follow.class);
+
+    //unsure
     Refresh mRefresh = restAdapter.create(Refresh.class);
     GetSecretKey mGetSecretKey = restAdapter.create(GetSecretKey.class);
-    Wipeout mWipeout = restAdapter.create(Wipeout.class);
+    FollowByID mFollowById = restAdapter.create(FollowByID.class);
+    GetPerson mGetPerson = restAdapter.create(GetPerson.class);
+    Register mRegister = restAdapter.create(Register.class);
+    Unregister mUnregister = restAdapter.create(Unregister.class);
+    PostPhoto mPostPhoto = restAdapter.create(PostPhoto.class);
+
+    //future version
     ImportFacebook mImportFacebook = restAdapter.create(ImportFacebook.class);
     ImportGPlus mImportGPlus = restAdapter.create(ImportGPlus.class);
     ImportYahoo mImportYahoo = restAdapter.create(ImportYahoo.class);
-    GetFollowers mGetFollowers = restAdapter.create(GetFollowers.class);
-    AddFollower mAddFollower = restAdapter.create(AddFollower.class);
-    GetFollower mGetFollower = restAdapter.create(GetFollower.class);
-    Register mRegister = restAdapter.create(Register.class);
-    Unregister mUnregister = restAdapter.create(Unregister.class);
-    GetTimeline mTimeline = restAdapter.create(GetTimeline.class);
-    GetMyProfile mGetMyProfile = restAdapter.create(GetMyProfile.class);
-    FProfile mFollowerProfile = restAdapter.create(FProfile.class);
     SetPhotoComments mSetPhotoComments = restAdapter.create(SetPhotoComments.class);
-    Like mLike = restAdapter.create(Like.class);
-    Unlike mUnlike = restAdapter.create(Unlike.class);
     Flag mFlag = restAdapter.create(Flag.class);
     GetComments mGetComments = restAdapter.create(GetComments.class);
-    PostPhoto mPostPhoto = restAdapter.create(PostPhoto.class);
-    Follow mFollow = restAdapter.create(Follow.class);
 
 
     //Testing harness for all the interfaces and endpoints

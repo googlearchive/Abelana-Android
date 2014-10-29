@@ -13,17 +13,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by zafir on 10/18/14.
+ * Created by zafir on 10/29/14.
  */
-public class ProfileAdapter extends BaseAdapter {
+public class FriendProfileAdapter extends BaseAdapter {
 
     private Context mContext;
     private List<String> mUrls = new ArrayList<String>();
     private LayoutInflater mInflater;
 
-    public ProfileAdapter(Context context) {
+    public FriendProfileAdapter(Context context) {
         mContext = context;
-        mUrls = Data.mProfileUrls;
+        mUrls = Data.mFollowingProfileUrls;
     }
 
     @Override

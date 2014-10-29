@@ -29,13 +29,12 @@
     <string name="action_profile">My Profile</string>
     <string name="action_friends">Friends</string>
 
-    <!-- Upload navdrawer_header strings-->
+    <!-- Upload navdrawer_header strings -->
     <string name="service_account">416523807683-87kpuu2fsvov4hbg9j8f8808an8h2k2b@developer.gserviceaccount.com</string>
     <string name="upload_bucket">abelana-in</string>
     <string name="display_bucket">abelana</string>
-
-
     <string name="photo_upload_success_message">Success! Uploading photo...</string>
     <string name="action_refresh">Refresh</string>
+    <string name="title_activity_friend_profile">FriendProfile</string>
 
 </resources>

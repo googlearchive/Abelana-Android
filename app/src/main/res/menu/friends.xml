@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/action_search"
-        android:title="search"
+    <item android:id="@+id/action_find_friends"
+        android:title="Find friends"
         android:showAsAction="always"
-        android:icon="@drawable/ic_action_search"
-        android:actionViewClass="android.widget.SearchView" />
+        android:icon="@drawable/ic_follow_inactive"/>
 </menu>

@@ -113,7 +113,7 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
     }
 
 
-    private void showProfilePage(IdToken idToken, Account account) {
+    private void showProfilePage(IdToken idToken, final Account account) {
         Log.v(LOG_TAG, "Token is: " + idToken.toString() + " Account is: " + account.toString());
 
         AbelanaClient abelanaClient = new AbelanaClient();
@@ -129,8 +129,11 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
                         String aTok = l.atok;
                         Log.v(LOG_TAG, "DONE! Token is " + aTok);
                         AbelanaThings.start(getApplicationContext(), aTok);
+                        Data.mDisplayName = account.getDisplayName();
+                        Data.mEmail = account.getEmail();
+                        Data.aTok = aTok;
+                        Data.getTimeline();
                         //initialize feed data
-                        Data d = new Data(aTok);
                         Intent feedIntent = new Intent(getApplicationContext(), FeedActivity.class);
                         //feedIntent.putExtra("aTok", aTok);
                         startActivity(feedIntent);

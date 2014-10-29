@@ -7,8 +7,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -16,32 +17,25 @@ import java.util.List;
  */
 public class FriendsAdapter extends BaseAdapter {
     private Context mContext;
-    private final List<String> mUsers = new ArrayList<String>();
+    private List<String> mFollowing = new ArrayList<String>();
     private LayoutInflater mInflater;
+    private List<String> mFollowingUrls = new ArrayList<String>();
 
     public FriendsAdapter(Context context) {
         mContext = context;
 
-        // Ensure we get a different ordering of images on each run.
-        Collections.addAll(mUsers, Data.NAMES);
-
-        // Triple up the list.
-        ArrayList<String> copy = new ArrayList<String>(mUsers);
-        mUsers.addAll(copy);
-        mUsers.addAll(copy);
-        mUsers.addAll(copy);
-        mUsers.addAll(copy);
-        mUsers.addAll(copy);
+        mFollowing = Data.mFollowingNames;
+        mFollowingUrls = Data.mFollowingUrls;
     }
 
     @Override
     public int getCount() {
-        return mUsers.size();
+        return mFollowing.size();
     }
 
     @Override
     public String getItem(int position) {
-        return mUsers.get(position);
+        return mFollowing.get(position);
     }
 
     @Override
@@ -62,9 +56,15 @@ public class FriendsAdapter extends BaseAdapter {
 
         TextView textView = (TextView) convertView.findViewById(R.id.textview_friend);
 
-        //add the image
+        //add the name
         String name = getItem(position);
         textView.setText(name);
+
+        //add the image
+        String photoUrl = mFollowingUrls.get(position);
+        BezelImageView imageView = (BezelImageView) convertView.findViewById(R.id.friend_image);
+        Picasso.with(mContext).load(photoUrl).into(imageView);
+
 
         return convertView;
     }

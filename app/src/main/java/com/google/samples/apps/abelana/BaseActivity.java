@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -73,6 +74,10 @@ public class BaseActivity extends Activity {
         BezelImageView imageView = (BezelImageView) header.findViewById(R.id.profile_image);
         Picasso.with(getApplicationContext()).load(LoginActivity.client.getSavedAccount().getPhotoUrl())
                 .into(imageView);
+        TextView email = (TextView) header.findViewById(R.id.profile_email_text);
+        email.setText(Data.mEmail);
+        TextView name = (TextView) header.findViewById(R.id.profile_name_text);
+        name.setText(Data.mDisplayName);
         // set up the drawer's list view with mNavItems and click listener
         mDrawerList.addHeaderView(header, null, false);
         mDrawerList.setAdapter(new NavDrawerAdapter(getApplicationContext(), R.layout.list_item_navdrawer,
@@ -155,6 +160,7 @@ public class BaseActivity extends Activity {
             startActivity(intent);
         }
         if (position == NAVDRAWER_ITEM_FOLLOWING) {
+            if (Data.mFollowingNames.size() == 0) Data.getFollowing();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.replace(R.id.content_frame, new FriendsFragment())
             .commit();
@@ -165,6 +171,7 @@ public class BaseActivity extends Activity {
                     .commit();
         }
         if (position == NAVDRAWER_ITEM_PROFILE) {
+            if (Data.mProfileUrls.size() == 0) Data.getProfile();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.replace(R.id.content_frame, new ProfileFragment())
                     .commit();

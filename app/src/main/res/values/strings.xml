@@ -10,8 +10,8 @@
     <string name="manage_account_label">Manage account</string>
     <string name="sign_out_label">Sign out</string>
     <string name="facebook_app_id">916113918402164</string>
-    <string name="title_activity_navigation_drawer">NavigationDrawer</string>
-    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_navigation_drawer">Abelana</string>
+    <string name="title_activity_settings">Settings</string>
     <string name="pref_data_usage_title">Data usage</string>
     <string name="pref_network_connection_title">Transfer files only over Wi-Fi</string>
     <string name="pref_network_connection_summary">Uploading and updating of files will pause when Wi-Fi connection isn\'t available.</string>
@@ -20,7 +20,7 @@
     <string name="network_entries_item_1">Wi-Fi only</string>
     <string name="network_entries_item_2">Network or Wi-Fi</string>
     <string name="action_camera">Camera</string>
-    <string name="title_activity_feed">FeedActivity</string>
+    <string name="title_activity_feed">Abelana</string>
     <string name="hello_world">Hello world!</string>
     <string name="pref_profile_visibility_title">Make my profile private</string>
     <string name="pref_profile_visibility_summary">Only approved followers will see your photos</string>
@@ -35,6 +35,6 @@
     <string name="display_bucket">abelana</string>
     <string name="photo_upload_success_message">Success! Uploading photo...</string>
     <string name="action_refresh">Refresh</string>
-    <string name="title_activity_friend_profile">FriendProfile</string>
+    <string name="title_activity_friend_profile">Profile</string>
 
 </resources>

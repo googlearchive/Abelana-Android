@@ -3,10 +3,17 @@ package com.google.samples.apps.abelana;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+
+import java.util.ArrayList;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 /**
@@ -25,9 +32,29 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
-        GridView gridView = (GridView) rootView.findViewById(R.id.gridview);
+        AbelanaClient client = new AbelanaClient();
+
+        final GridView gridView = (GridView) rootView.findViewById(R.id.gridview);
         //set the adapter for the ic_profile gridview
         gridView.setAdapter(new ProfileAdapter(getActivity()));
+
+        client.mGetMyProfile.getMyProfile(Data.aTok, "0", new Callback<AbelanaClient.Timeline>() {
+            @Override
+            public void success(AbelanaClient.Timeline timeline, Response response) {
+                Data.mProfileUrls = new ArrayList<String>();
+                for (AbelanaClient.TimelineEntry e: timeline.entries) {
+                    Log.v("foo", "data returned!");
+                    Data.mProfileUrls.add(AbelanaThings.getImage(e.photoid));
+                }
+                gridView.setAdapter(new ProfileAdapter(getActivity()));
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                error.printStackTrace();
+            }
+        });
+
         return rootView;
 
     }

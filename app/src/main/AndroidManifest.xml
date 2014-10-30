@@ -19,7 +19,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".LoginActivity"
-            android:launchMode="singleTask" >
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -58,11 +59,13 @@
 
         <activity
             android:name=".BaseActivity"
-            android:label="@string/title_activity_navigation_drawer" />
+            android:label="@string/title_activity_navigation_drawer"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".FeedActivity" >
+            android:parentActivityName=".FeedActivity"
+            android:screenOrientation="portrait">
 
             <!--
             This intent filter indicates to the system that this is the activity that controls your application's data usage.
@@ -81,7 +84,8 @@
         </activity>
         <activity
             android:name=".FeedActivity"
-            android:label="@string/title_activity_feed" >
+            android:label="@string/title_activity_feed"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
@@ -89,7 +93,8 @@
         <activity
             android:name=".FriendProfileActivity"
             android:label="@string/title_activity_friend_profile"
-            android:parentActivityName=".FeedActivity" >
+            android:parentActivityName=".FeedActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.google.samples.apps.abelana.FeedActivity" />

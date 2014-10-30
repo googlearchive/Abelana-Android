@@ -28,12 +28,13 @@
         android:key="pref_account"
         android:title="@string/pref_account_title">
         <CheckBoxPreference
-            android:key="pref_profile_visibility"
+            android:key="pref_wipeout"
             android:title="@string/pref_profile_visibility_title"
             android:defaultValue="false"
             android:summary="@string/pref_profile_visibility_summary" />
         <Preference
             android:key="pref_sign_out"
             android:title="@string/pref_sign_out_title" />
+
     </PreferenceCategory>
 </PreferenceScreen>

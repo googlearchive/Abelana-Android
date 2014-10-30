@@ -132,7 +132,7 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
                         Data.mDisplayName = account.getDisplayName();
                         Data.mEmail = account.getEmail();
                         Data.aTok = aTok;
-                        Data.getTimeline();
+                        //Data.getTimeline();
                         //initialize feed data
                         Intent feedIntent = new Intent(getApplicationContext(), FeedActivity.class);
                         //feedIntent.putExtra("aTok", aTok);

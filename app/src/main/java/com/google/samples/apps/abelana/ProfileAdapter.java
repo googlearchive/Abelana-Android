@@ -1,6 +1,7 @@
 package com.google.samples.apps.abelana;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ public class ProfileAdapter extends BaseAdapter {
     public ProfileAdapter(Context context) {
         mContext = context;
         mUrls = Data.mProfileUrls;
+        Log.v("foo", "SIZE IS " + mUrls.size());
     }
 
     @Override

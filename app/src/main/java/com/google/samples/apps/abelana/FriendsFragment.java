@@ -19,6 +19,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -41,18 +43,37 @@ public class FriendsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_friends, container, false);
-        ListView listView = (ListView) rootView.findViewById(R.id.listview_friends);
+        final ListView listView = (ListView) rootView.findViewById(R.id.listview_friends);
         setHasOptionsMenu(true);
-        //set the adapter for the friends listview
-        listView.setAdapter(new FriendsAdapter(getActivity()));
+        AbelanaClient client = new AbelanaClient();
+        client.mGetFollowing.getFollowing(Data.aTok, new Callback<AbelanaClient.Persons>() {
+            @Override
+            public void success(AbelanaClient.Persons persons, Response response) {
+                Data.mFollowingNames = new ArrayList<String>();
+                Data.mFollowingUrls = new ArrayList<String>();
+                for (AbelanaClient.Person p: persons.persons) {
+                    Data.mFollowingNames.add(p.name);
+                    Data.mFollowingUrls.add(AbelanaThings.getImage(p.personid));
+                }
+
+                //set the adapter for the friends listview
+                listView.setAdapter(new FriendsAdapter(getActivity()));
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
+
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 String url = Data.mFollowingUrls.get(position);
                 String personId = AbelanaThings.extractPhotoID(url);
-                Data.getFProfile(personId);
                 Intent intent = new Intent(getActivity(), FriendProfileActivity.class);
+                intent.putExtra("id", personId);
                 startActivity(intent);
             }
         });

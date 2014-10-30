@@ -25,7 +25,12 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 public class FeedActivity extends BaseActivity {
@@ -75,11 +80,31 @@ public class FeedActivity extends BaseActivity {
             View rootView = inflater.inflate(R.layout.fragment_feed, container, false);
             //required to display menu with the camera button
             setHasOptionsMenu(true);
-            ListView listView = (ListView) rootView.findViewById(R.id.listview_timeline);
+            final ListView listView = (ListView) rootView.findViewById(R.id.listview_timeline);
+
+            AbelanaClient client = new AbelanaClient();
+            client.mTimeline.timeline(Data.aTok, "0", new Callback<AbelanaClient.Timeline>() {
+                @Override
+                public void success(AbelanaClient.Timeline timelineResponse, Response response) {
+                    Data.mFeedUrls = new ArrayList<String>();
+                    Data.mLikes = new ArrayList<Integer>();
+                    Data.mNames = new ArrayList<String>();
+                    for (AbelanaClient.TimelineEntry e: timelineResponse.entries) {
+                        Data.mFeedUrls.add(AbelanaThings.getImage(e.photoid));
+                        Data.mLikes.add(e.likes);
+                        Data.mNames.add(e.name);
+                    }
+                    //set the adapter for the feed listview
+                    listView.setAdapter(new FeedAdapter(getActivity()));
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    error.printStackTrace();
+                }
+            });
 
 
-            //set the adapter for the feed listview
-            listView.setAdapter(new FeedAdapter(getActivity()));
             return rootView;
         }
 

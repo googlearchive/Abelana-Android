@@ -1,6 +1,7 @@
 package com.google.samples.apps.abelana;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ final class Data {
     public static List<String> mFollowingNames = new ArrayList<String>();
     public static AbelanaClient mClient;
     public static List<String> mFollowingUrls = new ArrayList<String>();
-    public static List<String> mFollowingProfileUrls;
+    public static List<String> mFollowingProfileUrls = new ArrayList<String>();
 
     public List<DrawerItem> mNavItems = new ArrayList<DrawerItem>();
     public static String aTok;
@@ -84,6 +85,7 @@ final class Data {
             @Override
             public void success(AbelanaClient.Timeline timeline, Response response) {
                 for (AbelanaClient.TimelineEntry e: timeline.entries) {
+                    Log.v("foo", "data returned!" );
                     mProfileUrls.add(AbelanaThings.getImage(e.photoid));
                 }
             }

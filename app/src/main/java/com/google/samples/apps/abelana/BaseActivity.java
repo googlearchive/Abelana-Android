@@ -160,7 +160,6 @@ public class BaseActivity extends Activity {
             startActivity(intent);
         }
         if (position == NAVDRAWER_ITEM_FOLLOWING) {
-            if (Data.mFollowingNames.size() == 0) Data.getFollowing();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.replace(R.id.content_frame, new FriendsFragment())
             .commit();
@@ -171,7 +170,6 @@ public class BaseActivity extends Activity {
                     .commit();
         }
         if (position == NAVDRAWER_ITEM_PROFILE) {
-            if (Data.mProfileUrls.size() == 0) Data.getProfile();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.replace(R.id.content_frame, new ProfileFragment())
                     .commit();

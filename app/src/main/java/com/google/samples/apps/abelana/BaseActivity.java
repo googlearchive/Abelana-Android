@@ -110,7 +110,7 @@ public class BaseActivity extends Activity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         if (savedInstanceState == null) {
-            selectItem(1);
+            selectItem(NAVDRAWER_ITEM_HOME);
         }
     }
 

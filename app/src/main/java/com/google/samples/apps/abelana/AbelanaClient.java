@@ -69,6 +69,11 @@ public class AbelanaClient {
         TimelineEntry[] entries;
     }
 
+    static class Stats {
+        int following;
+        int followers;
+    }
+
     //Create all the interfaces for the REST endpoints
     interface Login {
         @GET("/user/{gittok}/login/{displayName}/{photoUrl}")
@@ -267,6 +272,14 @@ public class AbelanaClient {
         );
     }
 
+    interface Statistics {
+        @GET("/user/{atok}/stats")
+        void statistics(
+          @Path("atok") String atok,
+          Callback<Stats> callback
+        );
+    }
+
     //Create the REST adapters. The app will use this variables
     Login mLogin = restAdapter.create(Login.class);
     Wipeout mWipeout = restAdapter.create(Wipeout.class);
@@ -277,6 +290,7 @@ public class AbelanaClient {
     Like mLike = restAdapter.create(Like.class);
     Unlike mUnlike = restAdapter.create(Unlike.class);
     Follow mFollow = restAdapter.create(Follow.class);
+    Statistics mStatistics = restAdapter.create(Statistics.class);
 
     //unsure
     Refresh mRefresh = restAdapter.create(Refresh.class);

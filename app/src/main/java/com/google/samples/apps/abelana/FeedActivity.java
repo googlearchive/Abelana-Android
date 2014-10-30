@@ -1,6 +1,7 @@
 package com.google.samples.apps.abelana;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -89,10 +90,12 @@ public class FeedActivity extends BaseActivity {
                     Data.mFeedUrls = new ArrayList<String>();
                     Data.mLikes = new ArrayList<Integer>();
                     Data.mNames = new ArrayList<String>();
+                    Data.mILike = new ArrayList<Boolean>();
                     for (AbelanaClient.TimelineEntry e: timelineResponse.entries) {
                         Data.mFeedUrls.add(AbelanaThings.getImage(e.photoid));
                         Data.mLikes.add(e.likes);
                         Data.mNames.add(e.name);
+                        Data.mILike.add(e.ilike);
                     }
                     //set the adapter for the feed listview
                     listView.setAdapter(new FeedAdapter(getActivity()));
@@ -117,7 +120,9 @@ public class FeedActivity extends BaseActivity {
             }
 
             if (id == R.id.action_refresh) {
-                Toast.makeText(getActivity(), "Refresh not yet enabled", Toast.LENGTH_SHORT).show();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.content_frame, new FeedActivity.FeedFragment())
+                        .commit();
             }
 
             return super.onOptionsItemSelected(item);

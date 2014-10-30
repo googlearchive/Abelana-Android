@@ -1,10 +1,17 @@
 package com.google.samples.apps.abelana;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.widget.Toast;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 public class SettingsActivity extends Activity {
@@ -39,6 +46,49 @@ public class SettingsActivity extends Activity {
         public void onActivityCreated(Bundle savedInstanceState) {
             super.onActivityCreated(savedInstanceState);
             Preference signOut = findPreference("pref_sign_out");
+            Preference wipeout = findPreference("pref_wipeout");
+
+            wipeout.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    AlertDialog builder = new AlertDialog.Builder(getActivity())
+                            .setMessage("This action cannot be undone!")
+                            .setTitle("Erase all your data?")
+                            .setPositiveButton("Erase", new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    AbelanaClient client = new AbelanaClient();
+                                    client.mWipeout.wipeout(Data.aTok, new Callback<AbelanaClient.Status>() {
+
+                                        @Override
+                                        public void success(AbelanaClient.Status status, Response response) {
+                                            Toast.makeText(getActivity(),
+                                                    "Your data has been deleted.",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+
+                                        @Override
+                                        public void failure(RetrofitError error) {
+                                            error.printStackTrace();
+                                        }
+                                    });
+
+                                }
+                            })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    //User canceled the dialog
+                                }
+                            })
+                            .create();
+                    builder.show();
+                    return true;
+                }
+            });
+
             signOut.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {

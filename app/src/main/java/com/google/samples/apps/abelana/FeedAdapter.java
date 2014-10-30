@@ -26,6 +26,7 @@ public class FeedAdapter extends BaseAdapter {
     private List<String> mUrls = new ArrayList<String>();
     private List<String> mNames = new ArrayList<String>();
     private List<Integer> mLikes = new ArrayList<Integer>();
+    private List<Boolean> mILike = new ArrayList<Boolean>();
     private LayoutInflater mInflater;
     String LOG_TAG = FeedAdapter.class.getSimpleName();
 
@@ -36,6 +37,7 @@ public class FeedAdapter extends BaseAdapter {
         mUrls = Data.mFeedUrls;
         mLikes = Data.mLikes;
         mNames = Data.mNames;
+        mILike = Data.mILike;
     }
 
     @Override
@@ -79,8 +81,16 @@ public class FeedAdapter extends BaseAdapter {
         final TextView likesView = (TextView) convertView.findViewById(R.id.feed_likes);
         likesView.setText(numLikes + " likes");
 
+        //set like button
+        final ImageButton likeButton = (ImageButton) convertView.findViewById(R.id.like_button);
+
+        if (mILike.get(position)) {
+            likeButton.setImageResource(R.drawable.ic_favorite_active);
+            //users can only like once, and cannot unlike
+            likeButton.setClickable(false);
+        }
+
         //add like button listener
-        ImageButton likeButton = (ImageButton) convertView.findViewById(R.id.like_button);
         likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,6 +104,8 @@ public class FeedAdapter extends BaseAdapter {
                             String text = (String) likesView.getText();
                             int numLikes = Integer.parseInt(text.substring(0, 1)) + 1;
                             likesView.setText(numLikes + " likes");
+                            likeButton.setImageResource(R.drawable.ic_favorite_active);
+                            likeButton.setClickable(false);
                         }
 
                         @Override

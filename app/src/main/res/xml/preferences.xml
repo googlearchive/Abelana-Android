@@ -16,25 +16,14 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-        android:key="pref_data_usage"
-        android:title="@string/pref_data_usage_title">
-        <CheckBoxPreference
-            android:key="pref_network_connection"
-            android:title="@string/pref_network_connection_title"
-            android:defaultValue="false"
-            android:summary="@string/pref_network_connection_summary" />
-    </PreferenceCategory>
-    <PreferenceCategory
         android:key="pref_account"
         android:title="@string/pref_account_title">
-        <CheckBoxPreference
-            android:key="pref_wipeout"
-            android:title="@string/pref_profile_visibility_title"
-            android:defaultValue="false"
-            android:summary="@string/pref_profile_visibility_summary" />
         <Preference
             android:key="pref_sign_out"
             android:title="@string/pref_sign_out_title" />
+        <Preference
+            android:key="pref_wipeout"
+            android:title="Delete all my data" />
 
     </PreferenceCategory>
 </PreferenceScreen>

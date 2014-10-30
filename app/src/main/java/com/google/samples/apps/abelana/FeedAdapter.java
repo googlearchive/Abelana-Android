@@ -102,7 +102,8 @@ public class FeedAdapter extends BaseAdapter {
                         @Override
                         public void success(AbelanaClient.Status status, Response response) {
                             String text = (String) likesView.getText();
-                            int numLikes = Integer.parseInt(text.substring(0, 1)) + 1;
+                            int index = text.indexOf(" ");
+                            int numLikes = Integer.parseInt(text.substring(0, index)) + 1;
                             likesView.setText(numLikes + " likes");
                             likeButton.setImageResource(R.drawable.ic_favorite_active);
                             likeButton.setClickable(false);

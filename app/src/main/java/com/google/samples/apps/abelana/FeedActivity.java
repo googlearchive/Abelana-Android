@@ -11,6 +11,8 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,6 +75,12 @@ public class FeedActivity extends BaseActivity {
         private final String LOG_TAG = FeedFragment.class.getSimpleName();
 
         public FeedFragment() {
+        }
+
+        @Override
+        public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+            super.onCreateOptionsMenu(menu, inflater);
+            inflater.inflate(R.menu.feed, menu);
         }
 
         @Override

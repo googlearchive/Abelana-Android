@@ -33,7 +33,7 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
         AbelanaClient client = new AbelanaClient();
-        setHasOptionsMenu(false);
+
         final GridView gridView = (GridView) rootView.findViewById(R.id.gridview);
         //set the adapter for the ic_profile gridview
         gridView.setAdapter(new ProfileAdapter(getActivity()));

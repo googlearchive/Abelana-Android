@@ -92,11 +92,11 @@ public class SettingsActivity extends Activity {
             signOut.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    LoginActivity.client.signOut();
+                    LoginActivity.client.resetAndSignOut();
                     Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
-                    loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    //clear the backstack
+                    loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(loginIntent);
-                    getActivity().finish();
                     return true;
                 }
             });

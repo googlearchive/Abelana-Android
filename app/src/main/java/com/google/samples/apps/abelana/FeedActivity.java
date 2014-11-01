@@ -35,8 +35,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.identitytoolkit.client.GitkitClient;
-import com.google.identitytoolkit.model.IdToken;
+import com.google.identitytoolkit.IdToken;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -76,6 +75,18 @@ public class FeedActivity extends BaseActivity {
                     .replace(R.id.content_frame, new FeedFragment())
                     .commit();
         }
+
+//        DisplayMetrics metrics = new DisplayMetrics();
+//        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+//        int realWidth = metrics.widthPixels;
+//        int realHeight = metrics.heightPixels;
+//        //realWidth x RealHeight = 720x1184
+//        float inchX = realWidth/metrics.xdpi;
+//        float inchY = realHeight/metrics.ydpi;
+//        //inchX x inchY = 2.28 X 3.75
+//        int dpX = (int)(realWidth / metrics.scaledDensity);
+//        int dpY = (int)(realHeight / metrics.scaledDensity);
+//        //dpX x dpY = 360x592
 
 
     }
@@ -215,7 +226,7 @@ public class FeedActivity extends BaseActivity {
 
                 /* Create a media file name*/
                 //Get localID
-                GitkitClient client = LoginActivity.client;
+                UserInfoStore client = new UserInfoStore(getActivity());
                 IdToken token = client.getSavedIdToken();
                 String localId = token.getLocalId();
 

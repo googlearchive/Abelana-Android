@@ -29,4 +29,16 @@ public class Utilities {
         byte[] bytes = str.getBytes();
         return encodeToString(bytes, NO_PADDING | NO_WRAP | URL_SAFE);
     }
+
+//    static void getScreenSize(Activity activity) {
+//        DisplayMetrics metrics = new DisplayMetrics();
+//        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+//        int realWidth = metrics.widthPixels;
+//        int realHeight = metrics.heightPixels;
+//        float inchX = realWidth/metrics.xdpi;
+//        float inchY = realHeight/metrics.ydpi;
+//        int dpX = (int)(realWidth / metrics.scaledDensity);
+//        int dpY = (int)(realHeight / metrics.scaledDensity);
+//        Log.v("foo", "dp=" + dpX + "x" + dpY);
+//    }
 }

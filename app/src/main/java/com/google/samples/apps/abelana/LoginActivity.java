@@ -27,9 +27,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.identitytoolkit.client.GitkitClient;
-import com.google.identitytoolkit.model.Account;
-import com.google.identitytoolkit.model.IdToken;
+import com.google.identitytoolkit.GitkitClient;
+import com.google.identitytoolkit.IdToken;
+import com.google.identitytoolkit.GitkitUser;
 
 import org.apache.http.HttpStatus;
 
@@ -44,11 +44,14 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
 
     private final String LOG_TAG = LoginActivity.class.getSimpleName();
     public static GitkitClient client;
+    public UserInfoStore mUserInfoStore;
+    private GitkitClient mGitkitClient;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        mUserInfoStore = new UserInfoStore(this);
         ActionBar actionBar = getActionBar();
         actionBar.hide();
         // Step 1: Create a GitkitClient.
@@ -61,8 +64,9 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
             // This method is called when the sign-in process succeeds. A Gitkit IdToken and the signed
             // in account information are passed to the callback.
             @Override
-            public void onSignIn(IdToken idToken, Account account) {
-                showProfilePage(idToken, account);
+            public void onSignIn(IdToken idToken, GitkitUser user) {
+                mUserInfoStore.saveIdTokenAndGitkitUser(idToken, user);
+                showProfilePage(idToken, user);
             }
 
             // Implement the onSignInFailed method of GitkitClient.SignInCallbacks interface.
@@ -79,10 +83,9 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
         // Otherwise, show a sign in button.
         //
 
-        IdToken idToken = client.getSavedIdToken();
-        Account account = client.getSavedAccount();
-        if (idToken != null && account != null) {
-            showProfilePage(idToken, account);
+
+        if (mUserInfoStore.isUserLoggedIn()) {
+            showProfilePage(mUserInfoStore.getSavedIdToken(), mUserInfoStore.getSavedGitkitUser());
         } else {
             showSignInPage();
         }
@@ -129,14 +132,14 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
     }
 
 
-    private void showProfilePage(IdToken idToken, final Account account) {
-        Log.v(LOG_TAG, "Token is: " + idToken.toString() + " Account is: " + account.toString());
+    private void showProfilePage(IdToken idToken, final GitkitUser user) {
+        Log.v(LOG_TAG, "Token is: " + idToken.toString() + " Account is: " + user.toString());
 
         AbelanaClient abelanaClient = new AbelanaClient();
 
         abelanaClient.mLogin.login(idToken.getTokenString(),
-                Utilities.base64Encoding(account.getDisplayName()),
-                Utilities.base64Encoding(account.getPhotoUrl()),
+                Utilities.base64Encoding(user.getDisplayName()),
+                Utilities.base64Encoding(user.getPhotoUrl()),
                 new Callback<AbelanaClient.ATOKJson>() {
 
                     public void success(AbelanaClient.ATOKJson l, Response r) {
@@ -145,8 +148,8 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
                         String aTok = l.atok;
                         Log.v(LOG_TAG, "DONE! Token is " + aTok);
                         AbelanaThings.start(getApplicationContext(), aTok);
-                        Data.mDisplayName = account.getDisplayName();
-                        Data.mEmail = account.getEmail();
+                        Data.mDisplayName = user.getDisplayName();
+                        Data.mEmail = user.getEmail();
                         Data.aTok = aTok;
                         //Data.getTimeline();
                         //initialize feed data

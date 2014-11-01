@@ -53,7 +53,7 @@
             android:value="416523807683-7g3hkiimg4q3naa2ebn0n1jnk5jb29au.apps.googleusercontent.com" />
         <meta-data
             android:name="identitytoolkit.server_widget_url"
-            android:value="https://localhost/callback" />
+            android:value="https://abelana-222.appspot.com/gitkit-widget.html" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />

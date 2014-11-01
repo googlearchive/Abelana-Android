@@ -144,7 +144,7 @@ public class FriendsFragment extends Fragment {
                 Log.v(LOG_TAG, "EMAIL IS " + email);
                 // Do something with the email. In our case, send the follow request
                 AbelanaClient abelanaClient = new AbelanaClient();
-                abelanaClient.mFollow.follow(Data.aTok, email, new Callback<AbelanaClient.Status>() {
+                abelanaClient.mFollow.follow(Data.aTok, Utilities.base64Encoding(email), new Callback<AbelanaClient.Status>() {
                     @Override
                     public void success(AbelanaClient.Status status, Response response) {
                         Toast.makeText(getActivity(), "Follow request sent to " + email + "!",

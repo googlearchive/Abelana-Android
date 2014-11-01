@@ -108,7 +108,8 @@ public class SettingsActivity extends Activity {
             signOut.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    LoginActivity.client.resetAndSignOut();
+                    UserInfoStore client = new UserInfoStore(getActivity());
+                    client.clearLoggedInUser();
                     Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
                     //clear the backstack
                     loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

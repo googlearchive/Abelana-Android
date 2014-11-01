@@ -24,6 +24,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +32,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.identitytoolkit.GitkitUser;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -87,7 +89,10 @@ public class BaseActivity extends Activity {
         Data data = new Data(getApplicationContext());
         View header = View.inflate(this, R.layout.navdrawer_header, null);
         BezelImageView imageView = (BezelImageView) header.findViewById(R.id.profile_image);
-        Picasso.with(getApplicationContext()).load(LoginActivity.client.getSavedAccount().getPhotoUrl())
+        UserInfoStore client = new UserInfoStore(getApplicationContext());
+        GitkitUser user = client.getSavedGitkitUser();
+        Log.v("foo", "user is " + user);
+        Picasso.with(getApplicationContext()).load(client.getSavedGitkitUser().getPhotoUrl())
                 .into(imageView);
         TextView email = (TextView) header.findViewById(R.id.profile_email_text);
         email.setText(Data.mEmail);

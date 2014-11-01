@@ -33,7 +33,7 @@ import java.util.List;
  * Created by zafir on 10/18/14.
  */
 public class ProfileAdapter extends BaseAdapter {
-
+    private final String LOG_TAG = ProfileAdapter.class.getSimpleName();
     private Context mContext;
     private List<String> mUrls = new ArrayList<String>();
     private LayoutInflater mInflater;
@@ -74,6 +74,10 @@ public class ProfileAdapter extends BaseAdapter {
 
         //add the image
         String url = getItem(position);
+        String photoID = AbelanaThings.extractPhotoID(url);
+        String qualifier = convertView.getResources().getString(R.string.size_qualifier);
+        url = AbelanaThings.getImage(photoID + qualifier);
+        Log.v(LOG_TAG, "URL IS " + url);
         Picasso.with(mContext).load(url).into(imageView);
 
         return imageView;

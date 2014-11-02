@@ -24,7 +24,7 @@
         android:layout_height="50dp"
         android:orientation="horizontal">
         <TextView
-            android:id="@+id/text_following"
+            android:id="@+id/profile_text_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingRight="15dp"
@@ -35,7 +35,7 @@
             android:textStyle="bold"
             android:textColor="@color/gray"/>
         <TextView
-            android:id="@+id/text_followers"
+            android:id="@+id/profile_text_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"

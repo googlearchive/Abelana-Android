@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -37,18 +38,21 @@ public class FriendProfileActivity extends Activity {
         final GridView gridView = (GridView) findViewById(R.id.gridview);
         Intent intent = getIntent();
         String personid = intent.getStringExtra("id");
+        final TextView profileName = (TextView) findViewById(R.id.profile_text_1);
         AbelanaClient client = new AbelanaClient();
         client.mFProfile.fProfile(Data.aTok, personid, "0", new Callback<AbelanaClient.Timeline>() {
             @Override
             public void success(AbelanaClient.Timeline timeline, Response response) {
                 Data.mFollowingProfileUrls = new ArrayList<String>();
-                for (AbelanaClient.TimelineEntry e: timeline.entries) {
-                    Data.mFollowingProfileUrls.add(AbelanaThings.getImage(e.photoid));
+                profileName.setText(timeline.entries[0].name + "'s profile");
+                if (timeline.entries != null) {
+                    for (AbelanaClient.TimelineEntry e : timeline.entries) {
+                        Data.mFollowingProfileUrls.add(AbelanaThings.getImage(e.photoid));
+                    }
+                    //set the adapter for the gridview
+                    gridView.setAdapter(new FriendProfileAdapter(getApplicationContext()));
                 }
-                //set the adapter for the gridview
-                gridView.setAdapter(new ProfileAdapter(getApplicationContext()));
             }
-
             @Override
             public void failure(RetrofitError error) {
 

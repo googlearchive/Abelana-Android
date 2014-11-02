@@ -180,7 +180,7 @@ public class BaseActivity extends Activity {
         }
         if (position == NAVDRAWER_ITEM_HOME) {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.replace(R.id.content_frame, new FeedActivity.FeedFragment())
+            transaction.replace(R.id.content_frame, new FeedFragment())
                     .commit();
         }
         if (position == NAVDRAWER_ITEM_PROFILE) {

@@ -30,4 +30,8 @@
         <item>Following</item>
         <item>Settings</item>
     </string-array>
+    <string-array name="camera_choices">
+        <item>Take picture</item>
+        <item>Choose photo from gallery</item>
+    </string-array>
 </resources>

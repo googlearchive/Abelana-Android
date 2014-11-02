@@ -18,13 +18,16 @@ package com.google.samples.apps.abelana;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,6 +35,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -66,16 +70,17 @@ public class FriendsFragment extends Fragment {
             @Override
             public void success(AbelanaClient.Persons persons, Response response) {
                 Data.mFollowingNames = new ArrayList<String>();
-                Data.mFollowingUrls = new ArrayList<String>();
-                for (AbelanaClient.Person p: persons.persons) {
-                    Data.mFollowingNames.add(p.name);
-                    Data.mFollowingUrls.add(AbelanaThings.getImage(p.personid));
+                Data.mFollowingIds = new ArrayList<String>();
+                if (persons.persons != null) {
+                    for (AbelanaClient.Person p : persons.persons) {
+                        Data.mFollowingNames.add(p.name);
+                        Data.mFollowingIds.add(p.personid);
+                    }
+
+                    //set the adapter for the friends listview
+                    listView.setAdapter(new FriendsAdapter(getActivity()));
                 }
-
-                //set the adapter for the friends listview
-                listView.setAdapter(new FriendsAdapter(getActivity()));
             }
-
             @Override
             public void failure(RetrofitError error) {
 
@@ -86,8 +91,9 @@ public class FriendsFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                String url = Data.mFollowingUrls.get(position);
-                String personId = AbelanaThings.extractPhotoID(url);
+                String personId = Data.mFollowingIds.get(position);
+                //String personId = AbelanaThings.extractPhotoID(url);
+                Log.v(LOG_TAG, "Person id is " + personId);
                 Intent intent = new Intent(getActivity(), FriendProfileActivity.class);
                 intent.putExtra("id", personId);
                 startActivity(intent);
@@ -112,8 +118,37 @@ public class FriendsFragment extends Fragment {
             startActivityForResult(intent, PICK_CONTACT_REQUEST);
         }
 
+        if (id == R.id.manual_friend_search) {
+            showDialog();
+        }
+
         return super.onOptionsItemSelected(item);
 
+    }
+
+    private void showDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Enter your friend's email address");
+
+        final EditText input = new EditText(getActivity());
+        input.setHint("person@example.com");
+        builder.setView(input);
+        builder.setPositiveButton("Follow", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                String email = input.getText().toString();
+                sendFollowRequest(email);
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //Canceled
+            }
+        });
+
+        builder.show();
     }
 
     @Override
@@ -143,21 +178,31 @@ public class FriendsFragment extends Fragment {
                 final String email = cursor.getString(column);
                 Log.v(LOG_TAG, "EMAIL IS " + email);
                 // Do something with the email. In our case, send the follow request
-                AbelanaClient abelanaClient = new AbelanaClient();
-                abelanaClient.mFollow.follow(Data.aTok, Utilities.base64Encoding(email), new Callback<AbelanaClient.Status>() {
-                    @Override
-                    public void success(AbelanaClient.Status status, Response response) {
-                        Toast.makeText(getActivity(), "Follow request sent to " + email + "!",
-                                Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        error.printStackTrace();
-                    }
-                });
+                sendFollowRequest(email);
             }
         }
 
+    }
+
+    private void sendFollowRequest(final String email) {
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(getActivity(), "Follow request failed. Please enter a valid email address.",
+                    Toast.LENGTH_SHORT).show();
+        } else {
+
+            AbelanaClient abelanaClient = new AbelanaClient();
+            abelanaClient.mFollow.follow(Data.aTok, Utilities.base64Encoding(email), new Callback<AbelanaClient.Status>() {
+                @Override
+                public void success(AbelanaClient.Status status, Response response) {
+                    Toast.makeText(getActivity(), "Follow request sent to " + email + "!",
+                            Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    error.printStackTrace();
+                }
+            });
+        }
     }
 }

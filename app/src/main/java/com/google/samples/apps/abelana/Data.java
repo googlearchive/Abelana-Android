@@ -34,7 +34,7 @@ final class Data {
     public static List<String> mProfileUrls = new ArrayList<String>();
     public static List<String> mFollowingNames = new ArrayList<String>();
     public static AbelanaClient mClient;
-    public static List<String> mFollowingUrls = new ArrayList<String>();
+    public static List<String> mFollowingIds = new ArrayList<String>();
     public static List<String> mFollowingProfileUrls = new ArrayList<String>();
     public static List<Boolean> mILike = new ArrayList<Boolean>();
 

@@ -83,8 +83,12 @@ public class FeedAdapter extends BaseAdapter {
         }
 
         //add the image
-        final String url = getItem(position);
+        String baseUrl = getItem(position);
         SquaredImageView imageView = (SquaredImageView) convertView.findViewById(R.id.feed_photo);
+        String photoID = AbelanaThings.extractPhotoID(baseUrl);
+        String qualifier = convertView.getResources().getString(R.string.size_qualifier);
+        final String url = AbelanaThings.getImage(photoID + qualifier);
+        Log.v(LOG_TAG, "URL IS " + url);
         Picasso.with(mContext).load(url).into(imageView);
 
         //add the username

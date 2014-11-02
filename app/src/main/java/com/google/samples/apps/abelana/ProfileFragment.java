@@ -58,20 +58,21 @@ public class ProfileFragment extends Fragment {
             @Override
             public void success(AbelanaClient.Timeline timeline, Response response) {
                 Data.mProfileUrls = new ArrayList<String>();
-                for (AbelanaClient.TimelineEntry e: timeline.entries) {
-                    Data.mProfileUrls.add(AbelanaThings.getImage(e.photoid));
+                if (timeline.entries != null) {
+                    for (AbelanaClient.TimelineEntry e : timeline.entries) {
+                        Data.mProfileUrls.add(AbelanaThings.getImage(e.photoid));
+                    }
+                    gridView.setAdapter(new ProfileAdapter(getActivity()));
                 }
-                gridView.setAdapter(new ProfileAdapter(getActivity()));
             }
-
             @Override
             public void failure(RetrofitError error) {
                 error.printStackTrace();
             }
         });
 
-        final TextView followersText = (TextView) rootView.findViewById(R.id.text_followers);
-        final TextView followingText = (TextView) rootView.findViewById(R.id.text_following);
+        final TextView followersText = (TextView) rootView.findViewById(R.id.profile_text_2);
+        final TextView followingText = (TextView) rootView.findViewById(R.id.profile_text_1);
 
         client.mStatistics.statistics(Data.aTok, new Callback<AbelanaClient.Stats>() {
             @Override

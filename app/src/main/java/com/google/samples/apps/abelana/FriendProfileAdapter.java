@@ -17,6 +17,7 @@
 package com.google.samples.apps.abelana;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,7 @@ public class FriendProfileAdapter extends BaseAdapter {
     private Context mContext;
     private List<String> mUrls = new ArrayList<String>();
     private LayoutInflater mInflater;
+    private final String LOG_TAG = FriendProfileAdapter.class.getSimpleName();
 
     public FriendProfileAdapter(Context context) {
         mContext = context;
@@ -72,6 +74,10 @@ public class FriendProfileAdapter extends BaseAdapter {
 
         //add the image
         String url = getItem(position);
+        String photoID = AbelanaThings.extractPhotoID(url);
+        String qualifier = convertView.getResources().getString(R.string.size_qualifier);
+        url = AbelanaThings.getImage(photoID + qualifier);
+        Log.v(LOG_TAG, "URL IS " + url);
         Picasso.with(mContext).load(url).into(imageView);
 
         return imageView;

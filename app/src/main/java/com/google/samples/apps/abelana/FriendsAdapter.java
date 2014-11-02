@@ -17,6 +17,7 @@
 package com.google.samples.apps.abelana;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,13 +36,14 @@ public class FriendsAdapter extends BaseAdapter {
     private Context mContext;
     private List<String> mFollowing = new ArrayList<String>();
     private LayoutInflater mInflater;
-    private List<String> mFollowingUrls = new ArrayList<String>();
+    private List<String> mFollowingIds = new ArrayList<String>();
+    private final String LOG_TAG = FriendsAdapter.class.getSimpleName();
 
     public FriendsAdapter(Context context) {
         mContext = context;
 
         mFollowing = Data.mFollowingNames;
-        mFollowingUrls = Data.mFollowingUrls;
+        mFollowingIds = Data.mFollowingIds;
     }
 
     @Override
@@ -77,7 +79,9 @@ public class FriendsAdapter extends BaseAdapter {
         textView.setText(name);
 
         //add the image
-        String photoUrl = mFollowingUrls.get(position);
+        String personId = mFollowingIds.get(position);
+        String photoUrl = AbelanaThings.getImage(personId + "_a");
+        Log.v(LOG_TAG, "Friend's photo URL is " + photoUrl);
         BezelImageView imageView = (BezelImageView) convertView.findViewById(R.id.friend_image);
         Picasso.with(mContext).load(photoUrl).into(imageView);
 

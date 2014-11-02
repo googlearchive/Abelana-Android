@@ -28,22 +28,20 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.identitytoolkit.GitkitClient;
-import com.google.identitytoolkit.IdToken;
 import com.google.identitytoolkit.GitkitUser;
-
-import org.apache.http.HttpStatus;
+import com.google.identitytoolkit.IdToken;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Gitkit Demo.
+ * Handles logging in using the Google Identity Toolkit - refer to the product documentation
+ * for more information
  */
 public class LoginActivity extends FragmentActivity implements OnClickListener {
 
     private final String LOG_TAG = LoginActivity.class.getSimpleName();
-    public static GitkitClient client;
     public UserInfoStore mUserInfoStore;
     private GitkitClient mGitkitClient;
 
@@ -53,13 +51,13 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         mUserInfoStore = new UserInfoStore(this);
         ActionBar actionBar = getActionBar();
-        actionBar.hide();
+        if (actionBar != null) actionBar.hide();
         // Step 1: Create a GitkitClient.
         // The configurations are set in the AndroidManifest.xml. You can also set or overwrite them
         // by calling the corresponding setters on the GitkitClient builder.
         //
 
-        client = GitkitClient.newBuilder(this, new GitkitClient.SignInCallbacks() {
+        mGitkitClient = GitkitClient.newBuilder(this, new GitkitClient.SignInCallbacks() {
             // Implement the onSignIn method of GitkitClient.SignInCallbacks interface.
             // This method is called when the sign-in process succeeds. A Gitkit IdToken and the signed
             // in account information are passed to the callback.
@@ -82,8 +80,6 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
         // If there is an already signed in user, show the ic_profile page and welcome message.
         // Otherwise, show a sign in button.
         //
-
-
         if (mUserInfoStore.isUserLoggedIn()) {
             showProfilePage(mUserInfoStore.getSavedIdToken(), mUserInfoStore.getSavedGitkitUser());
         } else {
@@ -101,7 +97,7 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (!client.handleActivityResult(requestCode, resultCode, intent)) {
+        if (!mGitkitClient.handleActivityResult(requestCode, resultCode, intent)) {
             super.onActivityResult(requestCode, resultCode, intent);
         }
     }
@@ -114,7 +110,7 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
 
     @Override
     protected void onNewIntent(Intent intent) {
-        if (!client.handleIntent(intent)) {
+        if (!mGitkitClient.handleIntent(intent)) {
             super.onNewIntent(intent);
         }
     }
@@ -125,7 +121,7 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
         button.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                client.startSignIn();
+                mGitkitClient.startSignIn();
             }
         });
 
@@ -143,8 +139,6 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
                 new Callback<AbelanaClient.ATOKJson>() {
 
                     public void success(AbelanaClient.ATOKJson l, Response r) {
-                        if (r.getStatus() == HttpStatus.SC_OK) {
-                        }
                         String aTok = l.atok;
                         Log.v(LOG_TAG, "DONE! Token is " + aTok);
                         AbelanaThings.start(getApplicationContext(), aTok);
@@ -171,14 +165,10 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
     }
 
 
-    // Step 5: Respond to user actions.
-    // If the user clicks sign in, call GitkitClient.startSignIn() to trigger the sign in flow.
-    // If the user clicks sign out, call GitkitClient.signOut() to clear state.
-    // If the user clicks manage account, call GitkitClient.manageAccount() to show manage
-    // account UI.
+    // Step 5: Respond to user actions. Required method.
     @Override
     public void onClick(View v) {
-
+        //Nothing to do here
     }
 
 }

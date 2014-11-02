@@ -24,15 +24,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by zafir on 10/24/14.
+ * Adapter to display data in the side navigation drawer
  */
 public class NavDrawerAdapter extends ArrayAdapter<DrawerItem> {
     private Context mContext;
-    private final List<String> mUsers = new ArrayList<String>();
     private LayoutInflater mInflater;
     int mLayoutResource;
     List<DrawerItem> mDrawerItems;

@@ -21,6 +21,8 @@ package com.google.samples.apps.abelana;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 import retrofit.http.DELETE;
 import retrofit.http.GET;
 import retrofit.http.POST;
@@ -28,7 +30,7 @@ import retrofit.http.PUT;
 import retrofit.http.Path;
 
 /**
- * Created by zafir on 10/16/14.
+ * Uses Square Retrofit to turn Cloud Platform REST APIs into Java interfaces
  */
 public class AbelanaClient {
     //base URL for all the endpoints
@@ -310,7 +312,7 @@ public class AbelanaClient {
     Follow mFollow = restAdapter.create(Follow.class);
     Statistics mStatistics = restAdapter.create(Statistics.class);
 
-    //unsure
+    //Not using these APIs yet
     Refresh mRefresh = restAdapter.create(Refresh.class);
     GetSecretKey mGetSecretKey = restAdapter.create(GetSecretKey.class);
     FollowByID mFollowById = restAdapter.create(FollowByID.class);
@@ -318,8 +320,6 @@ public class AbelanaClient {
     Register mRegister = restAdapter.create(Register.class);
     Unregister mUnregister = restAdapter.create(Unregister.class);
     PostPhoto mPostPhoto = restAdapter.create(PostPhoto.class);
-
-    //future version
     ImportFacebook mImportFacebook = restAdapter.create(ImportFacebook.class);
     ImportGPlus mImportGPlus = restAdapter.create(ImportGPlus.class);
     ImportYahoo mImportYahoo = restAdapter.create(ImportYahoo.class);
@@ -334,92 +334,57 @@ public class AbelanaClient {
                 .setEndpoint(API_URL)
                 .build();
 
-//        GetTimeline abelanaTimeline = restAdapter.create(GetTimeline.class);
-//
-//
-//        abelanaTimeline.timeline("LES001", "0", new Callback<Timeline>() {
-//            @Override
-//            public void success(Timeline timelineResponse, Response response) {
-//                System.out.println(timelineResponse.kind);
-//                System.out.println(timelineResponse.entries[0].photoid);
-//                TimelineEntry[] arr = timelineResponse.entries;
-//                for (TimelineEntry e: arr) {
-//                    System.out.println(e.likes);
-//                    System.out.println(e.photoid);
-//                }
-//                //System.out.println(arr.length);
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                error.getStackTrace();
-//            }
-//        });
+        GetTimeline abelanaTimeline = restAdapter.create(GetTimeline.class);
 
-//        Refresh abelanaRefresh = restAdapter.create(Refresh.class);
-//
-//        abelanaRefresh.refresh("LES001", new Callback<ATOKJson>() {
-//            @Override
-//            public void success(ATOKJson atokJson, Response response) {
-//                System.out.println(atokJson.atok);
-//                System.out.println(atokJson.kind);
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//
-//            }
-//        });
-//
-//        GetSecretKey abelanaGetSecretKey = restAdapter.create(GetSecretKey.class);
-//
-//        abelanaGetSecretKey.getSecretKey("LES001", new Callback<Status>() {
-//            @Override
-//            public void success(Status status, Response response) {
-//                System.out.println(status.kind);
-//                System.out.println(status.status);
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//
-//            }
-//        });
-//
-//        GetFriendsList abelanaGetFriendsList = restAdapter.create(GetFriendsList.class);
-//
-//        abelanaGetFriendsList.getFriendsList("LES001", new Callback<FriendList>() {
-//            @Override
-//            public void success(FriendList friendList, Response response) {
-//                System.out.println(friendList.kind);
-//                for (String s: friendList.friendid) {
-//                    System.out.println(s);
-//                }
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//
-//            }
-//        });
-//
-//        GetFriend abelanaGetFriend = restAdapter.create(GetFriend.class);
-//
-//        abelanaGetFriend.getFriend("LES001", "00001", new Callback<Friend>() {
-//            @Override
-//            public void success(Friend friend, Response response) {
-//                System.out.println(friend.email);
-//                System.out.println(friend.friendid);
-//                System.out.println(friend.kind);
-//                System.out.println(friend.name);
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//
-//            }
-//        });
 
+        abelanaTimeline.timeline("LES001", "0", new Callback<Timeline>() {
+            @Override
+            public void success(Timeline timelineResponse, Response response) {
+                System.out.println(timelineResponse.kind);
+                System.out.println(timelineResponse.entries[0].photoid);
+                TimelineEntry[] arr = timelineResponse.entries;
+                for (TimelineEntry e: arr) {
+                    System.out.println(e.likes);
+                    System.out.println(e.photoid);
+                }
+                //System.out.println(arr.length);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                error.getStackTrace();
+            }
+        });
+
+        Refresh abelanaRefresh = restAdapter.create(Refresh.class);
+
+        abelanaRefresh.refresh("LES001", new Callback<ATOKJson>() {
+            @Override
+            public void success(ATOKJson atokJson, Response response) {
+                System.out.println(atokJson.atok);
+                System.out.println(atokJson.kind);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
+
+        GetSecretKey abelanaGetSecretKey = restAdapter.create(GetSecretKey.class);
+
+        abelanaGetSecretKey.getSecretKey("LES001", new Callback<Status>() {
+            @Override
+            public void success(Status status, Response response) {
+                System.out.println(status.kind);
+                System.out.println(status.status);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
 
         try {
             Thread.sleep(1500);

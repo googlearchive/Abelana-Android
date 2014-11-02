@@ -17,7 +17,7 @@
 package com.google.samples.apps.abelana;
 
 /**
- * Created by zafir on 10/24/14.
+ * Class used to package navigation drawer titles and icons together for use in adapter
  */
 public class DrawerItem {
     private String title;

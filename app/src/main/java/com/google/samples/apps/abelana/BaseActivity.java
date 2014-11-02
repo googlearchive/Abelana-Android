@@ -86,7 +86,7 @@ public class BaseActivity extends Activity {
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
         //initialize Data class to retrieve navigation drawer icons and text
-        Data data = new Data(getApplicationContext());
+        Data data = new Data();
         View header = View.inflate(this, R.layout.navdrawer_header, null);
         BezelImageView imageView = (BezelImageView) header.findViewById(R.id.profile_image);
         UserInfoStore client = new UserInfoStore(getApplicationContext());
@@ -146,7 +146,6 @@ public class BaseActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
         // The action bar home/up action should open or close the drawer.
         // ActionBarDrawerToggle will take care of this.
         if (mDrawerToggle.onOptionsItemSelected(item)) {

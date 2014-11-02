@@ -16,13 +16,11 @@
 
 package com.google.samples.apps.abelana;
 
-import android.content.Context;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by zafir on 10/15/14.
+ * Holds data objects centrally for use in various parts of the app
  */
 final class Data {
     public static List<String> mFeedUrls = new ArrayList<String>();
@@ -33,7 +31,6 @@ final class Data {
     public static String mDisplayName;
     public static List<String> mProfileUrls = new ArrayList<String>();
     public static List<String> mFollowingNames = new ArrayList<String>();
-    public static AbelanaClient mClient;
     public static List<String> mFollowingIds = new ArrayList<String>();
     public static List<String> mFollowingProfileUrls = new ArrayList<String>();
     public static List<Boolean> mILike = new ArrayList<Boolean>();
@@ -42,7 +39,7 @@ final class Data {
     public static String aTok;
 
 
-    public Data(Context context) {
+    public Data() {
         mNavItems.add(new DrawerItem("Home", R.drawable.ic_home));
         mNavItems.add(new DrawerItem("My Profile", R.drawable.ic_profile));
         mNavItems.add(new DrawerItem("Following", R.drawable.ic_friends));

@@ -22,7 +22,7 @@ import static android.util.Base64.URL_SAFE;
 import static android.util.Base64.encodeToString;
 
 /**
- * Created by zafir on 9/29/14.
+ * Contains methods for use in various parts of the application
  */
 public class Utilities {
     static String base64Encoding(String str) {
@@ -30,15 +30,4 @@ public class Utilities {
         return encodeToString(bytes, NO_PADDING | NO_WRAP | URL_SAFE);
     }
 
-//    static void getScreenSize(Activity activity) {
-//        DisplayMetrics metrics = new DisplayMetrics();
-//        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-//        int realWidth = metrics.widthPixels;
-//        int realHeight = metrics.heightPixels;
-//        float inchX = realWidth/metrics.xdpi;
-//        float inchY = realHeight/metrics.ydpi;
-//        int dpX = (int)(realWidth / metrics.scaledDensity);
-//        int dpY = (int)(realHeight / metrics.scaledDensity);
-//        Log.v("foo", "dp=" + dpX + "x" + dpY);
-//    }
 }

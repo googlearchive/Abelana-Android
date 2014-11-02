@@ -17,7 +17,7 @@
 package com.google.samples.apps.abelana;
 
 /**
- * Created by zafir on 11/2/14.
+ * Fragment representing the photo feed, which is the Home tab of the app
  */
 
 import android.app.Activity;
@@ -49,9 +49,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.security.SecureRandom;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -61,11 +59,11 @@ import retrofit.client.Response;
  * Fragment that displays the main feed, as well as creates the photo capture capability
  */
 public class FeedFragment extends Fragment {
-    static final int REQUEST_IMAGE_CAPTURE = 0;
-    static final int REQUEST_IMAGE_CHOOSE = 1;
-    static final int MEDIA_TYPE_IMAGE = 3;
-    protected Uri mMediaUri;
-    protected File mPhotoFile;
+    private static final int REQUEST_IMAGE_CAPTURE = 0;
+    private static final int REQUEST_IMAGE_CHOOSE = 1;
+    private static final int MEDIA_TYPE_IMAGE = 3;
+    private Uri mMediaUri;
+    private File mPhotoFile;
     private final String LOG_TAG = FeedFragment.class.getSimpleName();
 
     public FeedFragment() {
@@ -225,7 +223,6 @@ public class FeedFragment extends Fragment {
 
             Log.v(LOG_TAG, "File name is " + fileName);
 
-            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             File mediaFile;
             if (type == MEDIA_TYPE_IMAGE){
                 mediaFile = new File(mediaStorageDir.getPath() + File.separator +

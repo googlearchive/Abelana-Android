@@ -14,9 +14,15 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   -->
-<!--Selectors are used for state-based layouts. -->
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/ic_settings_active"
-        android:state_activated="true" />
-    <item android:drawable="@drawable/ic_settings_inactive" />
-</selector>
+<resources>
+
+    <string name="app_name">Abelana-gcp</string>
+    <string name="welcome_text">Welcome to Abelana-GCP</string>
+    <string name="facebook_app_id">916113918402164</string>
+
+    <!-- Upload navdrawer_header strings -->
+    <string name="service_account">416523807683-87kpuu2fsvov4hbg9j8f8808an8h2k2b@developer.gserviceaccount.com</string>
+    <string name="upload_bucket">abelana-gcp-in</string>
+    <string name="display_bucket">abelana-gcp</string>
+
+</resources>

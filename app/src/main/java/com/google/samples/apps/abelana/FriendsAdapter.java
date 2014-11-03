@@ -30,7 +30,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by zafir on 10/19/14.
+ * Adapter to display a list of the other people the user is following. See FeedAdapter for a full
+ * explanation of how these adapters work.
  */
 public class FriendsAdapter extends BaseAdapter {
     private Context mContext;

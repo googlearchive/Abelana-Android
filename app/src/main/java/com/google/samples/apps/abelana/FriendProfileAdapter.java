@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by zafir on 10/29/14.
+ * Adapter to display a friend's profile. See FeedAdapter class for a full explanation of these adapters.
  */
 public class FriendProfileAdapter extends BaseAdapter {
 

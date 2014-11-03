@@ -15,6 +15,17 @@ android {
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        gcpLive {
+//            debuggable true
+//            applicationId "com.google.samples.apps.abelana.gcplive"
+            lintOptions {
+                checkReleaseBuilds false
+            }
+        }
+        debug {
+//            applicationId "com.google.samples.apps.abelana"
+
+        }
     }
     productFlavors {
     }

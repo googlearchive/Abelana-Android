@@ -30,7 +30,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by zafir on 10/18/14.
+ * Adapater used to display the user's profile. Refer to FeedAdapter for a full explanation
+ * for how these adapters work.
  */
 public class ProfileAdapter extends BaseAdapter {
     private final String LOG_TAG = ProfileAdapter.class.getSimpleName();

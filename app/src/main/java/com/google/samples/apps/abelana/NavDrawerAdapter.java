@@ -27,7 +27,8 @@ import android.widget.TextView;
 import java.util.List;
 
 /**
- * Adapter to display data in the side navigation drawer
+ * Adapter to display data in the side navigation drawer. Refer to FeedAdapter for a full explanation
+ * on how the adapters work
  */
 public class NavDrawerAdapter extends ArrayAdapter<DrawerItem> {
     private Context mContext;

@@ -23,20 +23,22 @@ import java.util.List;
  * Holds data objects centrally for use in various parts of the app
  */
 final class Data {
-    public static List<String> mFeedUrls = new ArrayList<String>();
-    public static List<String> mNames = new ArrayList<String>();
-    public static List<Integer> mLikes = new ArrayList<Integer>();
+    public static List<String> mFeedIds;
+    public static List<String> mNames;
+    public static List<Integer> mLikes;
     private final String LOG_TAG = Data.class.getSimpleName();
     public static String mEmail;
     public static String mDisplayName;
-    public static List<String> mProfileUrls = new ArrayList<String>();
-    public static List<String> mFollowingNames = new ArrayList<String>();
-    public static List<String> mFollowingIds = new ArrayList<String>();
-    public static List<String> mFollowingProfileUrls = new ArrayList<String>();
-    public static List<Boolean> mILike = new ArrayList<Boolean>();
-
+    public static List<String> mProfileUrls;
+    public static List<String> mFollowingNames;
+    public static List<String> mFollowingIds;
+    public static List<String> mFollowingProfileUrls;
+    public static List<Boolean> mILike;
+    public static List<String> mFeedUrls;
+    public static String sizeQualifier;
     public List<DrawerItem> mNavItems = new ArrayList<DrawerItem>();
     public static String aTok;
+    public static String helpful;
 
 
     public Data() {

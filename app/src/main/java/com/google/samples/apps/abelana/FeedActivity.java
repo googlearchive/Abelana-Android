@@ -19,7 +19,7 @@ package com.google.samples.apps.abelana;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
-
+//The central activity of the app.
 public class FeedActivity extends BaseActivity {
     private final String LOG_TAG = FeedActivity.class.getSimpleName();
 
@@ -32,31 +32,12 @@ public class FeedActivity extends BaseActivity {
         //Initializes the application with the proper default settings
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
-        /*Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            String aTok = extras.getString("aTok");
-            AbelanaUser user = AbelanaThings.start(getApplicationContext(), aTok);
-        }*/
-
         //Replace the current fragment with the Feed/Camera fragment via transaction
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
                     .replace(R.id.content_frame, new FeedFragment())
                     .commit();
         }
-
-//        DisplayMetrics metrics = new DisplayMetrics();
-//        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-//        int realWidth = metrics.widthPixels;
-//        int realHeight = metrics.heightPixels;
-//        //realWidth x RealHeight = 720x1184
-//        float inchX = realWidth/metrics.xdpi;
-//        float inchY = realHeight/metrics.ydpi;
-//        //inchX x inchY = 2.28 X 3.75
-//        int dpX = (int)(realWidth / metrics.scaledDensity);
-//        int dpY = (int)(realHeight / metrics.scaledDensity);
-//        //dpX x dpY = 360x592
-
 
     }
 }

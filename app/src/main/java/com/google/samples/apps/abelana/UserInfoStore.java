@@ -22,14 +22,34 @@ import android.content.SharedPreferences;
 import com.google.identitytoolkit.GitkitUser;
 import com.google.identitytoolkit.IdToken;
 
+/*
+ * Stores data that needs to persist using Android SharedPreferences
+ */
+
 public class UserInfoStore {
     private SharedPreferences mPrefs;
     public String PRIVATE_STORAGE_NAME = "userinfostore";
     public String ID_TOKEN_KEY = "idTokenKey";
     public String GITKIT_USER_KEY = "gitkitUserKey";
 
+    public String ACC_TOKEN = "accessToken";
+    public String HelpFul = "helpfulThing";
+
     public UserInfoStore(Context ctx) {
         mPrefs = ctx.getSharedPreferences(PRIVATE_STORAGE_NAME, Context.MODE_PRIVATE);
+    }
+
+    public void saveToken(String AccToken, String helpful) {
+        mPrefs.edit().putString(ACC_TOKEN, AccToken)
+                .putString(HelpFul, helpful);
+    }
+
+    public String getHelpful() {
+        return mPrefs.getString(HelpFul, null);
+    }
+
+    public String getAccToken() {
+        return mPrefs.getString(ACC_TOKEN, null);
     }
 
     public void saveIdTokenAndGitkitUser(IdToken idToken, GitkitUser user) {
@@ -62,6 +82,7 @@ public class UserInfoStore {
         mPrefs.edit()
                 .remove(ID_TOKEN_KEY)
                 .remove(GITKIT_USER_KEY)
+                .remove(ACC_TOKEN)
                 .apply();
     }
 

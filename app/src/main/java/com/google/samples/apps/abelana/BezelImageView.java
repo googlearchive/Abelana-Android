@@ -16,9 +16,6 @@
 
 package com.google.samples.apps.abelana;
 
-/**
- * Created by zafir on 10/21/14.
- */
 
 import android.content.Context;
 import android.content.res.TypedArray;

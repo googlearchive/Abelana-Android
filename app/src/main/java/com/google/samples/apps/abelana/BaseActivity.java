@@ -36,31 +36,11 @@ import com.google.identitytoolkit.GitkitUser;
 import com.squareup.picasso.Picasso;
 
 /**
- * This example illustrates a common usage of the DrawerLayout widget
- * in the Android support library.
- * <p/>
- * <p>When a navigation (left) drawer is present, the host activity should detect presses of
- * the action bar's Up affordance as a signal to open and close the navigation drawer. The
- * ActionBarDrawerToggle facilitates this behavior.
- * Items within the drawer should fall into one of two categories:</p>
- * <p/>
- * <ul>
- * <li><strong>View switches</strong>. A view switch follows the same basic policies as
- * list or tab navigation in that a view switch does not create navigation history.
- * This pattern should only be used at the root activity of a task, leaving some form
- * of Up navigation active for activities further down the navigation hierarchy.</li>
- * <li><strong>Selective Up</strong>. The drawer allows the user to choose an alternate
- * parent for Up navigation. This allows a user to jump across an app's navigation
- * hierarchy at will. The application should treat this as it treats Up navigation from
- * a different task, replacing the current task stack using TaskStackBuilder or similar.
- * This is the only form of navigation drawer that should be used outside of the root
- * activity of a task.</li>
- * </ul>
- * <p/>
- * <p>Right side drawers should be used for actions, not navigation. This follows the pattern
- * established by the Action Bar that navigation should be to the left and actions to the right.
- * An action should be an operation performed on the current contents of the window,
- * for example enabling or disabling a data overlay on top of the current content.</p>
+ * The BaseActivity is primarily responsible for implementing the Android navigation drawer.
+ * It is the BaseActivity that other activities can extend. In this case, FeedActivity serves
+ * as an extension.
+ * Code for the navigation drawer adapted from the sample at
+ * http://developer.android.com/training/implementing-navigation/nav-drawer.html
  */
 public class BaseActivity extends Activity {
     private DrawerLayout mDrawerLayout;
@@ -71,6 +51,9 @@ public class BaseActivity extends Activity {
     private CharSequence mTitle;
     private String[] mNavItems;
 
+    /* Navigation Drawer menu items start indexing at 1, because the header view is interpreted
+     * as the 0th element, though it is not tappable.
+     */
     protected static final int NAVDRAWER_ITEM_HOME = 1;
     protected static final int NAVDRAWER_ITEM_PROFILE = 2;
     protected static final int NAVDRAWER_ITEM_FOLLOWING = 3;
@@ -87,6 +70,12 @@ public class BaseActivity extends Activity {
 
         //initialize Data class to retrieve navigation drawer icons and text
         Data data = new Data();
+
+        /* Add the header to the navigation drawer. Pulls the user's name, email address
+         * and photo from the Google Identity Toolkit. The photo is placed into a custom
+         * ImageView which gives the circle effect. Image loading over the network is done
+         * with Picasso, a library from Square.
+         */
         View header = View.inflate(this, R.layout.navdrawer_header, null);
         BezelImageView imageView = (BezelImageView) header.findViewById(R.id.profile_image);
         UserInfoStore client = new UserInfoStore(getApplicationContext());
@@ -165,6 +154,10 @@ public class BaseActivity extends Activity {
         }
     }
 
+    /* Handles the flow from tapping items in the navigation drawer.
+     * All new screens come from fragment transactions. Settings is an exception
+     * because of the way Settings are implemented in Android.
+     */
     private void selectItem(int position) {
         FragmentManager fragmentManager = getFragmentManager();
 
@@ -188,7 +181,7 @@ public class BaseActivity extends Activity {
                     .commit();
         }
 
-        // update selected item and title, then close the drawer
+        //update selected item and title, then close the drawer
         mDrawerList.setItemChecked(position, true);
         setTitle(mNavItems[position]);
         mDrawerLayout.closeDrawer(mDrawerList);

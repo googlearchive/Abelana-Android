@@ -31,17 +31,22 @@ import retrofit.http.Path;
 
 /**
  * Uses Square Retrofit to turn Cloud Platform REST APIs into Java interfaces
+ * See documentation at http://square.github.io/retrofit/
  */
 public class AbelanaClient {
     //base URL for all the endpoints
     private static final String API_URL = "https://endpoints-dot-abelana-222.appspot.com";
     private static final String LOG_TAG = AbelanaClient.class.getSimpleName();
+
     //adapter used to build all the REST adapters
     public static final RestAdapter restAdapter = new RestAdapter.Builder()
             .setEndpoint(API_URL)
             .build();
 
-    //Create static classes for interface callback methods
+    /*Create static classes for interface callback methods. These classes match the return
+    * the return type of the various APIs we define. Note: not all of these are in use by the
+    * current iteration of the app.
+     */
     static class ATOKJson {
         String kind;
         String atok;
@@ -94,7 +99,7 @@ public class AbelanaClient {
         int followers;
     }
 
-    //Create all the interfaces for the REST endpoints
+    //Create all the interfaces for the REST endpoints.
     interface Login {
         @GET("/user/{gittok}/login/{displayName}/{photoUrl}")
         void login(
@@ -300,7 +305,9 @@ public class AbelanaClient {
         );
     }
 
-    //Create the REST adapters. The app will use this variables
+    /*Create the REST adapters. This is what you will use to instantiate the API calls
+     * in the rest of the app (see the other classes for examples of how they are used)
+     */
     Login mLogin = restAdapter.create(Login.class);
     Wipeout mWipeout = restAdapter.create(Wipeout.class);
     GetFollowing mGetFollowing = restAdapter.create(GetFollowing.class);
@@ -328,7 +335,7 @@ public class AbelanaClient {
     GetComments mGetComments = restAdapter.create(GetComments.class);
 
 
-    //Testing harness for all the interfaces and endpoints
+    //You can test the Retrofit code here in main
     public static void main(String... args) {
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(API_URL)
@@ -337,7 +344,7 @@ public class AbelanaClient {
         GetTimeline abelanaTimeline = restAdapter.create(GetTimeline.class);
 
 
-        abelanaTimeline.timeline("LES001", "0", new Callback<Timeline>() {
+        abelanaTimeline.timeline("authentication token", "0", new Callback<Timeline>() {
             @Override
             public void success(Timeline timelineResponse, Response response) {
                 System.out.println(timelineResponse.kind);
@@ -353,36 +360,6 @@ public class AbelanaClient {
             @Override
             public void failure(RetrofitError error) {
                 error.getStackTrace();
-            }
-        });
-
-        Refresh abelanaRefresh = restAdapter.create(Refresh.class);
-
-        abelanaRefresh.refresh("LES001", new Callback<ATOKJson>() {
-            @Override
-            public void success(ATOKJson atokJson, Response response) {
-                System.out.println(atokJson.atok);
-                System.out.println(atokJson.kind);
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-
-            }
-        });
-
-        GetSecretKey abelanaGetSecretKey = restAdapter.create(GetSecretKey.class);
-
-        abelanaGetSecretKey.getSecretKey("LES001", new Callback<Status>() {
-            @Override
-            public void success(Status status, Response response) {
-                System.out.println(status.kind);
-                System.out.println(status.status);
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-
             }
         });
 

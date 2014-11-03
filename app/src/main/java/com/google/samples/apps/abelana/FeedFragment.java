@@ -16,9 +16,6 @@
 
 package com.google.samples.apps.abelana;
 
-/**
- * Fragment representing the photo feed, which is the Home tab of the app
- */
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -26,11 +23,11 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -43,6 +40,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.identitytoolkit.IdToken;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -56,7 +55,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Fragment that displays the main feed, as well as creates the photo capture capability
+ * Fragment representing the photo feed, which is the Home tab of the app
  */
 public class FeedFragment extends Fragment {
     private static final int REQUEST_IMAGE_CAPTURE = 0;
@@ -78,24 +77,54 @@ public class FeedFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_feed, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_feed, container, false);
         //required to display menu with the camera button
         setHasOptionsMenu(true);
         final ListView listView = (ListView) rootView.findViewById(R.id.listview_timeline);
 
+        /* Instantiate the class which has interfaces for the REST APIs. API calls happen off the
+         * UI thread in order to not halt the app. The callback function handles the API response.
+         * The response contains the information for the feed, including photos, names of people
+         * who took the photos, number of likes, and whether the current user liked the photo. This
+         * information is stored in the Data class and is accessed by the FeedAdapter to display it.
+         */
         AbelanaClient client = new AbelanaClient();
         client.mTimeline.timeline(Data.aTok, "0", new Callback<AbelanaClient.Timeline>() {
             @Override
             public void success(AbelanaClient.Timeline timelineResponse, Response response) {
-                Data.mFeedUrls = new ArrayList<String>();
+                Data.mFeedIds = new ArrayList<String>();
                 Data.mLikes = new ArrayList<Integer>();
                 Data.mNames = new ArrayList<String>();
                 Data.mILike = new ArrayList<Boolean>();
+                Data.mFeedUrls = new ArrayList<String>();
+                String qualifier = rootView.getResources().getString(R.string.size_qualifier);
                 for (AbelanaClient.TimelineEntry e: timelineResponse.entries) {
-                    Data.mFeedUrls.add(AbelanaThings.getImage(e.photoid));
+                    Data.mFeedIds.add(e.photoid);
+                    Data.mFeedUrls.add(AbelanaThings.getImage(e.photoid + qualifier));
                     Data.mLikes.add(e.likes);
                     Data.mNames.add(e.name);
                     Data.mILike.add(e.ilike);
+                }
+                //Warm the image cache by pre-loading the next 5 photos
+                int count = 0;
+                for (String url: Data.mFeedUrls) {
+                    Picasso.with(getActivity()).load(url).into(new Target() {
+                        @Override
+                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                            // cache is now warmed up
+                        }
+
+                        @Override
+                        public void onBitmapFailed(Drawable errorDrawable) {
+                        }
+
+                        @Override
+                        public void onPrepareLoad(Drawable placeHolderDrawable) {
+                        }
+                    });
+
+                    count++;
+                    if (count == 5) break;
                 }
                 //set the adapter for the feed listview
                 listView.setAdapter(new FeedAdapter(getActivity()));
@@ -111,10 +140,12 @@ public class FeedFragment extends Fragment {
         return rootView;
     }
 
+    // Lifecycle method to handle menu option actions
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
+        //Allows the user to choose whether to take a new photo, or choose a photo from the Gallery
         if (id == R.id.action_camera) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setItems(R.array.camera_choices, new DialogInterface.OnClickListener() {
@@ -124,6 +155,7 @@ public class FeedFragment extends Fragment {
                         takePicture();
                     } else if (position == REQUEST_IMAGE_CHOOSE) {
                         Intent choosePhotoIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                        choosePhotoIntent.addCategory(Intent.CATEGORY_OPENABLE);
                         choosePhotoIntent.setType("image/*");
                         startActivityForResult(choosePhotoIntent, REQUEST_IMAGE_CHOOSE);
                     }
@@ -133,7 +165,7 @@ public class FeedFragment extends Fragment {
             AlertDialog dialog = builder.create();
             dialog.show();
         }
-
+        //Refreshes the feed by re-loading the freed fragment (which in turn calls the API for new data)
         if (id == R.id.action_refresh) {
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.content_frame, new FeedFragment())
@@ -144,7 +176,19 @@ public class FeedFragment extends Fragment {
 
     }
 
-    //Lifecycle method called after the photo is taken by the user
+    private void takePicture() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        //file to save in the cloud
+        mPhotoFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
+        //Uri to store the photo locally in the Android Gallery
+        mMediaUri = Uri.fromFile(mPhotoFile);
+        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    //Lifecycle method called after a photo is taken or an existing image is selected by the user
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -183,18 +227,6 @@ public class FeedFragment extends Fragment {
         }
         else if (resultCode != Activity.RESULT_CANCELED) {
             Toast.makeText(getActivity(), "error!", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    private void takePicture() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        //file to save in the cloud
-        mPhotoFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
-        //Uri to store the photo locally in the Android Gallery
-        mMediaUri = Uri.fromFile(mPhotoFile);
-        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
-        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
 
@@ -253,20 +285,12 @@ public class FeedFragment extends Fragment {
         }
         String randNum = rand8Dig.toString();
 
-        //byte[] randNumBytes = randNum.getBytes();
         String randNumB64 = Utilities.base64Encoding(randNum);
 
         String fileName = localId + '.' + randNumB64;
 
-        //Determine if the photo is public or private
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        Boolean accountVisibility = sharedPref.getBoolean(SettingsActivity.KEY_PREF_PROFILE_VISIBILITY, false);
-        Log.v(LOG_TAG, "Account visibility is: " + accountVisibility);
-        if (accountVisibility) {
-            fileName += 'F';
-        } else {
-            fileName += 'P';
-        }
+        fileName += 'P'; //'P' marks that a photo is public, future versions will allow for private photos
+
         return fileName;
     }
 

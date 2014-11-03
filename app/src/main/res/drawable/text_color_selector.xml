@@ -14,6 +14,9 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   -->
+
+ <!--Selectors are used for state-based layouts. In this case, to change text
+  color based on whether the menu item is selected. -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:color="@color/main_blue"
         android:state_activated="true" />

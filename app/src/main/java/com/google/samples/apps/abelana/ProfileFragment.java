@@ -33,8 +33,7 @@ import retrofit.client.Response;
 
 
 /**
- * A simple {@link Fragment} subclass.
- *
+ * Fragment used to display the user's profile
  */
 public class ProfileFragment extends Fragment {
 
@@ -48,12 +47,10 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        //Refer to FeedFragment for a full explanation on how these API calls work
         AbelanaClient client = new AbelanaClient();
-
         final GridView gridView = (GridView) rootView.findViewById(R.id.gridview);
-        //set the adapter for the ic_profile gridview
-        gridView.setAdapter(new ProfileAdapter(getActivity()));
-
         client.mGetMyProfile.getMyProfile(Data.aTok, "0", new Callback<AbelanaClient.Timeline>() {
             @Override
             public void success(AbelanaClient.Timeline timeline, Response response) {

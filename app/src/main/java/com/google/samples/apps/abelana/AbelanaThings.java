@@ -49,7 +49,6 @@ import java.util.Collections;
 
 
 /**
- * Created by lesv on 10/9/14.
  * This make take about 300ms seconds to complete, but it will only run once.
  */
 public class AbelanaThings  {
@@ -59,26 +58,26 @@ public class AbelanaThings  {
 
     private static GoogleCredential credential;
 
-    public static AbelanaUser start(Context ctx, String atok) {
-        String halfKey = "";
+    public static AbelanaUser start(Context ctx, String atok, String secret) {
         AbelanaUser user = new AbelanaUser();
 
         String[] part = atok.split("\\.");
         byte[] jb = Base64.decode(part[1], Base64.URL_SAFE);
         String json = new String(jb);
+        byte[] half = Base64.decode(secret, Base64.URL_SAFE);
+        String halfpw = new String(half);
 
         try {
             JSONObject pojo = new JSONObject(json);
             user.UserID = pojo.getString("UserID");
             user.Exp = pojo.getLong("Exp");
             user.Iat = pojo.getLong("Iat");
-            halfKey = pojo.getString("HalfPW").replaceAll("\n","");
         } catch (JSONException e) {
             System.out.println("Abelana User - convert json "+e.toString());
             return null;
         }
         if( storage == null) {
-        AbelanaThings at = new AbelanaThings(ctx, halfKey);
+            AbelanaThings at = new AbelanaThings(ctx, halfpw);
         }
         return user;
     }
@@ -136,9 +135,13 @@ public class AbelanaThings  {
         }
     }
 
+    /*Creates the URL for image at the given input string, which represents a photo ID
+     * or user ID
+     */
+
     public static String getImage(String name) {
         final String Bucket = "abelana";
-        DateTime soon = DateTime.now(DateTimeZone.UTC).plusMinutes(3);
+        DateTime soon = DateTime.now(DateTimeZone.UTC).plusMinutes(20);
         long expires = soon.getMillis()/1000;
         String stringToSign = "GET\n\n\n"
                 + expires +"\n"

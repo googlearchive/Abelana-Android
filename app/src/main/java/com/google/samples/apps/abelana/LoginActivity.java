@@ -37,7 +37,7 @@ import retrofit.client.Response;
 
 /**
  * Handles logging in using the Google Identity Toolkit - refer to the product documentation
- * for more information
+ * for more information https://developers.google.com/identity-toolkit/
  */
 public class LoginActivity extends FragmentActivity implements OnClickListener {
 
@@ -52,6 +52,7 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
         mUserInfoStore = new UserInfoStore(this);
         ActionBar actionBar = getActionBar();
         if (actionBar != null) actionBar.hide();
+
         // Step 1: Create a GitkitClient.
         // The configurations are set in the AndroidManifest.xml. You can also set or overwrite them
         // by calling the corresponding setters on the GitkitClient builder.
@@ -130,41 +131,71 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
 
     private void showProfilePage(IdToken idToken, final GitkitUser user) {
         Log.v(LOG_TAG, "Token is: " + idToken.toString() + " Account is: " + user.toString());
+        //Save the user's basic information in the Data class for use throughout the app
+        Data.mDisplayName = user.getDisplayName();
+        Data.mEmail = user.getEmail();
+        Data.aTok = mUserInfoStore.getAccToken();
+        //Refer to the FeedFragment to understand how these APIs work
+        if(Data.aTok == null){
+            AbelanaClient abelanaClient = new AbelanaClient();
 
-        AbelanaClient abelanaClient = new AbelanaClient();
+            abelanaClient.mLogin.login(idToken.getTokenString(),
+                    Utilities.base64Encoding(user.getDisplayName()),
+                    Utilities.base64Encoding(user.getPhotoUrl()),
+                    new Callback<AbelanaClient.ATOKJson>() {
 
-        abelanaClient.mLogin.login(idToken.getTokenString(),
-                Utilities.base64Encoding(user.getDisplayName()),
-                Utilities.base64Encoding(user.getPhotoUrl()),
-                new Callback<AbelanaClient.ATOKJson>() {
+                        public void success(AbelanaClient.ATOKJson l, Response r) {
+                            String aTok = l.atok;
+                            Log.v(LOG_TAG, "DONE! Token is " + aTok);
+                            Data.aTok = aTok;
+                            loginDone();
+                        }
 
-                    public void success(AbelanaClient.ATOKJson l, Response r) {
-                        String aTok = l.atok;
-                        Log.v(LOG_TAG, "DONE! Token is " + aTok);
-                        AbelanaThings.start(getApplicationContext(), aTok);
-                        Data.mDisplayName = user.getDisplayName();
-                        Data.mEmail = user.getEmail();
-                        Data.aTok = aTok;
-                        //Data.getTimeline();
-                        //initialize feed data
-                        Intent feedIntent = new Intent(getApplicationContext(), FeedActivity.class);
-                        //feedIntent.putExtra("aTok", aTok);
-                        startActivity(feedIntent);
-                        //remove login from the backstack
-                        finish();
-
-                    }
-
-                    public void failure(RetrofitError e) {
-                        Log.v(LOG_TAG, "Failure!");
-                        Toast.makeText(getApplicationContext(), "Login failed!", Toast.LENGTH_LONG);
-                    }
-                });
+                        public void failure(RetrofitError e) {
+                            Log.v(LOG_TAG, "Failure!");
+                            Toast.makeText(getApplicationContext(), "Login failed!", Toast.LENGTH_LONG);
+                        }
+                    });
+        }
 
 
     }
 
+    public void loginDone() {
 
+        AbelanaClient abelanaClient = new AbelanaClient();
+
+        Data.helpful = mUserInfoStore.getHelpful();
+        if(Data.helpful == null) {
+            abelanaClient.mGetSecretKey.getSecretKey(Data.aTok, new Callback<AbelanaClient.Status>() {
+                @Override
+                public void success(AbelanaClient.Status status, Response response) {
+                    Data.helpful = status.status;
+
+                    haveSecret();
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    Log.v(LOG_TAG, "Failure!");
+                    Toast.makeText(getApplicationContext(), "Login failed!", Toast.LENGTH_LONG);
+                }
+            });
+
+        } else {
+            haveSecret();
+        }
+    }
+
+    //Once login is complete, launches the FeedActivity to get into the app
+    public void haveSecret () {
+        mUserInfoStore.saveToken(Data.aTok, Data.helpful);
+        AbelanaUser au = AbelanaThings.start(getApplicationContext(), Data.aTok, Data.helpful);
+
+        Intent feedIntent = new Intent(getApplicationContext(), FeedActivity.class);
+        startActivity(feedIntent);
+        finish();
+    }
     // Step 5: Respond to user actions. Required method.
     @Override
     public void onClick(View v) {

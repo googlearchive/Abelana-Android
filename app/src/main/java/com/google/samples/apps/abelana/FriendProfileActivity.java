@@ -28,7 +28,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-
+//Activity to display one of the user's friends profiles (used in the 'Following' tab)
 public class FriendProfileActivity extends Activity {
 
     @Override
@@ -36,9 +36,16 @@ public class FriendProfileActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_profile);
         final GridView gridView = (GridView) findViewById(R.id.gridview);
+
+        /* The activity is activated by a tap on the list item in the Following tab,
+         * which packages the person's user ID as an intent extra. This ID is needed for the API call.
+         */
         Intent intent = getIntent();
         String personid = intent.getStringExtra("id");
+
         final TextView profileName = (TextView) findViewById(R.id.profile_text_1);
+
+        //API call - see FeedFragment for explanation on how these calls work
         AbelanaClient client = new AbelanaClient();
         client.mFProfile.fProfile(Data.aTok, personid, "0", new Callback<AbelanaClient.Timeline>() {
             @Override
@@ -55,7 +62,7 @@ public class FriendProfileActivity extends Activity {
             }
             @Override
             public void failure(RetrofitError error) {
-
+                error.printStackTrace();
             }
         });
     }

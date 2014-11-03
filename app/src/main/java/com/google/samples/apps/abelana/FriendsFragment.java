@@ -47,8 +47,7 @@ import retrofit.client.Response;
 
 
 /**
- * A simple {@link Fragment} subclass.
- *
+ * Fragment used for the 'Following' tab
  */
 public class FriendsFragment extends Fragment {
     private final String LOG_TAG = FriendsFragment.class.getSimpleName();
@@ -65,6 +64,8 @@ public class FriendsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_friends, container, false);
         final ListView listView = (ListView) rootView.findViewById(R.id.listview_friends);
         setHasOptionsMenu(true);
+
+        //See FeedFragment for a full explanation of how these API calls work
         AbelanaClient client = new AbelanaClient();
         client.mGetFollowing.getFollowing(Data.aTok, new Callback<AbelanaClient.Persons>() {
             @Override
@@ -92,7 +93,6 @@ public class FriendsFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 String personId = Data.mFollowingIds.get(position);
-                //String personId = AbelanaThings.extractPhotoID(url);
                 Log.v(LOG_TAG, "Person id is " + personId);
                 Intent intent = new Intent(getActivity(), FriendProfileActivity.class);
                 intent.putExtra("id", personId);
@@ -112,12 +112,15 @@ public class FriendsFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
+        //Uses a built-in Android intent to display email addresses from your contacts
         if (id == R.id.action_find_friends) {
             Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
             intent.setType(ContactsContract.CommonDataKinds.Email.CONTENT_TYPE);
             startActivityForResult(intent, PICK_CONTACT_REQUEST);
         }
-
+        /* Alternatively, the user can manually input an email address of a friend they'd like to follow.
+         * Note, currently the user must already have the app for the follow to work.
+         */
         if (id == R.id.manual_friend_search) {
             showDialog();
         }
@@ -128,12 +131,13 @@ public class FriendsFragment extends Fragment {
 
     private void showDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Enter your friend's email address");
+        builder.setTitle(getActivity().getResources().getString(R.string.friend_dialog_title));
 
         final EditText input = new EditText(getActivity());
-        input.setHint("person@example.com");
+        input.setHint(getActivity().getResources().getString(R.string.friend_dialog_hint));
         builder.setView(input);
-        builder.setPositiveButton("Follow", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getActivity().getResources().getString(R.string.friend_dialog_positive),
+                new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 String email = input.getText().toString();
@@ -141,7 +145,8 @@ public class FriendsFragment extends Fragment {
             }
         });
 
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getActivity().getResources().getString(R.string.friend_dialog_negative),
+                new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 //Canceled
@@ -189,7 +194,7 @@ public class FriendsFragment extends Fragment {
             Toast.makeText(getActivity(), "Follow request failed. Please enter a valid email address.",
                     Toast.LENGTH_SHORT).show();
         } else {
-
+            //See FeedFragment for a full explanation on how these API calls work
             AbelanaClient abelanaClient = new AbelanaClient();
             abelanaClient.mFollow.follow(Data.aTok, Utilities.base64Encoding(email), new Callback<AbelanaClient.Status>() {
                 @Override

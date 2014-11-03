@@ -29,7 +29,9 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-
+/* Activity handle the apps settings. Refer to the Android documentation for how to implement
+ * settings. http://developer.android.com/guide/topics/ui/settings.html
+ */
 public class SettingsActivity extends Activity {
     public static final String KEY_PREF_PROFILE_VISIBILITY = "pref_profile_visibility";
 
@@ -44,9 +46,6 @@ public class SettingsActivity extends Activity {
         }
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
     public static class SettingsFragment extends PreferenceFragment {
 
         @Override
@@ -68,31 +67,33 @@ public class SettingsActivity extends Activity {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     AlertDialog builder = new AlertDialog.Builder(getActivity())
-                            .setMessage("This action cannot be undone!")
-                            .setTitle("Erase all your data?")
-                            .setPositiveButton("Erase", new DialogInterface.OnClickListener() {
-
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    AbelanaClient client = new AbelanaClient();
-                                    client.mWipeout.wipeout(Data.aTok, new Callback<AbelanaClient.Status>() {
+                            .setMessage(getActivity().getResources().getString(R.string.wipeout_warning_message))
+                            .setTitle(getActivity().getResources().getString(R.string.wipeout_title))
+                            .setPositiveButton(getActivity().getResources().getString(R.string.wipeout_positive),
+                                    new DialogInterface.OnClickListener() {
 
                                         @Override
-                                        public void success(AbelanaClient.Status status, Response response) {
-                                            Toast.makeText(getActivity(),
-                                                    "Your data has been deleted.",
-                                                    Toast.LENGTH_SHORT).show();
-                                        }
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            AbelanaClient client = new AbelanaClient();
+                                            client.mWipeout.wipeout(Data.aTok, new Callback<AbelanaClient.Status>() {
 
-                                        @Override
-                                        public void failure(RetrofitError error) {
-                                            error.printStackTrace();
-                                        }
-                                    });
+                                                @Override
+                                                public void success(AbelanaClient.Status status, Response response) {
+                                                    Toast.makeText(getActivity(),
+                                                            getActivity().getResources().getString(R.string.wipeout_success),
+                                                            Toast.LENGTH_SHORT).show();
+                                                }
 
-                                }
-                            })
-                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void failure(RetrofitError error) {
+                                                    error.printStackTrace();
+                                                }
+                                            });
+
+                                        }
+                                    })
+                            .setNegativeButton(getActivity().getResources().getString(R.string.wipeout_cancel),
+                                    new DialogInterface.OnClickListener() {
 
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -108,9 +109,11 @@ public class SettingsActivity extends Activity {
             signOut.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
+                    //Logout by clearing the login information from the shared preferences
                     UserInfoStore client = new UserInfoStore(getActivity());
                     client.clearLoggedInUser();
                     Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
+
                     //clear the backstack
                     loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(loginIntent);

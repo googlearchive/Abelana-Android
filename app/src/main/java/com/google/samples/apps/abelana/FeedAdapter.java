@@ -47,6 +47,7 @@ public class FeedAdapter extends BaseAdapter {
     private List<Integer> mLikes = new ArrayList<Integer>();
     private List<Boolean> mILike = new ArrayList<Boolean>();
     private List<String> mFeedUrls = new ArrayList<String>();
+    private int lastPosition = 0;
 
     private LayoutInflater mInflater;
     String LOG_TAG = FeedAdapter.class.getSimpleName();
@@ -94,26 +95,46 @@ public class FeedAdapter extends BaseAdapter {
         Picasso.with(mContext).load(url).into(imageView);
 
         /* To help make scrolling a bit smoother with less load time, warm the cache
-         * by loading the image 5 items down in the list into an empty target.
+         * by loading images above or below the current image depending on scroll direction.
+         * We compute scroll direction by comparing the current position vs the last position
          */
-        int index = position + 5;
-        if (index < mFeedUrls.size()) {
-            Picasso.with(mContext).load(mFeedUrls.get(index)).into(new Target() {
-                @Override
-                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                    // cache is now warmed up
-                }
+        if (position >= lastPosition) {
+            int index = position + 2;
+            if (index < mFeedUrls.size()) {
+                Picasso.with(mContext).load(mFeedUrls.get(index)).into(new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        // cache is now warmed up
+                    }
 
-                @Override
-                public void onBitmapFailed(Drawable errorDrawable) {
-                }
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
+                    }
 
-                @Override
-                public void onPrepareLoad(Drawable placeHolderDrawable) {
-                }
-            });
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+                    }
+                });
+            }
+        } else {
+            int index = position - 2;
+            if (index >= 0) {
+                Picasso.with(mContext).load(mFeedUrls.get(index)).into(new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        // cache is now warmed up
+                    }
+
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+                    }
+                });
+            }
         }
-
 
         //add the username
         String name = mNames.get(position);
@@ -166,6 +187,9 @@ public class FeedAdapter extends BaseAdapter {
                 }
             });
         }
+
+        //keep track of position to detect scrolling up vs down
+        lastPosition = position;
         return convertView;
     }
 

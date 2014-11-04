@@ -42,8 +42,10 @@ public class FriendProfileActivity extends Activity {
          */
         Intent intent = getIntent();
         String personid = intent.getStringExtra("id");
+        String personName = intent.getStringExtra("name");
 
-        final TextView profileName = (TextView) findViewById(R.id.profile_text_1);
+        TextView profileName = (TextView) findViewById(R.id.profile_text_1);
+        profileName.setText(personName + "'s profile");
 
         //API call - see FeedFragment for explanation on how these calls work
         AbelanaClient client = new AbelanaClient();
@@ -52,7 +54,6 @@ public class FriendProfileActivity extends Activity {
             public void success(AbelanaClient.Timeline timeline, Response response) {
                 Data.mFollowingProfileUrls = new ArrayList<String>();
                 if (timeline.entries != null) {
-                    profileName.setText(timeline.entries[0].name + "'s profile");
                     for (AbelanaClient.TimelineEntry e : timeline.entries) {
                         Data.mFollowingProfileUrls.add(AbelanaThings.getImage(e.photoid));
                     }

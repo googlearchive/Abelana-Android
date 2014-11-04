@@ -59,7 +59,7 @@ public class FriendsFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_friends, container, false);
         final ListView listView = (ListView) rootView.findViewById(R.id.listview_friends);
@@ -84,7 +84,7 @@ public class FriendsFragment extends Fragment {
             }
             @Override
             public void failure(RetrofitError error) {
-
+                error.printStackTrace();
             }
         });
 
@@ -93,9 +93,11 @@ public class FriendsFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 String personId = Data.mFollowingIds.get(position);
+                String personName = Data.mFollowingNames.get(position);
                 Log.v(LOG_TAG, "Person id is " + personId);
                 Intent intent = new Intent(getActivity(), FriendProfileActivity.class);
                 intent.putExtra("id", personId);
+                intent.putExtra("name", personName);
                 startActivity(intent);
             }
         });

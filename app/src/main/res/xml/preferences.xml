@@ -24,6 +24,8 @@
         <Preference
             android:key="pref_wipeout"
             android:title="Delete all my data" />
-
+        <Preference
+            android:key="pref_about"
+            android:title="About" />
     </PreferenceCategory>
 </PreferenceScreen>

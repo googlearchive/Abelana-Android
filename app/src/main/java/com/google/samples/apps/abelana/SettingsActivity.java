@@ -18,11 +18,17 @@ package com.google.samples.apps.abelana;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.text.Html;
+import android.text.SpannableStringBuilder;
+import android.text.method.LinkMovementMethod;
+import android.view.LayoutInflater;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import retrofit.Callback;
@@ -62,6 +68,7 @@ public class SettingsActivity extends Activity {
             super.onActivityCreated(savedInstanceState);
             Preference signOut = findPreference("pref_sign_out");
             Preference wipeout = findPreference("pref_wipeout");
+            Preference about = findPreference("pref_about");
 
             wipeout.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
@@ -120,6 +127,34 @@ public class SettingsActivity extends Activity {
                     return true;
                 }
             });
+
+            about.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    // Build the about body view and append the link to see OSS licenses
+                    SpannableStringBuilder aboutBody = new SpannableStringBuilder();
+                    aboutBody.append(Html.fromHtml(getActivity().getResources().getString(R.string.splash_dialog_body)));
+
+                    LayoutInflater layoutInflater = (LayoutInflater) getActivity().getSystemService(
+                            Context.LAYOUT_INFLATER_SERVICE);
+                    TextView aboutBodyView = (TextView) layoutInflater.inflate(R.layout.dialog_about, null);
+                    aboutBodyView.setText(aboutBody);
+                    aboutBodyView.setMovementMethod(new LinkMovementMethod());
+                    new AlertDialog.Builder(getActivity())
+                            .setTitle("Abelana Demo")
+                            .setView(aboutBodyView)
+                            .setPositiveButton("ok",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                            dialog.dismiss();
+                                        }
+                                    }
+                            )
+                            .show();
+                    return true;
+                }
+            });
+
         }
     }
 }

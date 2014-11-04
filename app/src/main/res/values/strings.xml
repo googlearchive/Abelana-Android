@@ -54,5 +54,10 @@
     <string name="wipeout_positive">Erase</string>
     <string name="wipeout_success">Your data has been deleted.</string>
     <string name="wipeout_cancel">Cancel</string>
+    <string name="splash_dialog_body"><![CDATA[
+        This demo app is for educational purposes only.<br><br>
+        <a href="https://abelana-222.appspot.com/tos.html">Terms of Service</a><br><br>
+        <a href="https://abelana-222.appspot.com/privacy.html">Privacy Policy</a>
+    ]]></string>
 
 </resources>

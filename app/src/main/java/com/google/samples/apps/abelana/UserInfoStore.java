@@ -34,6 +34,7 @@ public class UserInfoStore {
 
     public String ACC_TOKEN = "accessToken";
     public String HelpFul = "helpfulThing";
+    public String dialogShown = "dialogShown";
 
     public UserInfoStore(Context ctx) {
         mPrefs = ctx.getSharedPreferences(PRIVATE_STORAGE_NAME, Context.MODE_PRIVATE);
@@ -42,6 +43,20 @@ public class UserInfoStore {
     public void saveToken(String AccToken, String helpful) {
         mPrefs.edit().putString(ACC_TOKEN, AccToken)
                 .putString(HelpFul, helpful);
+    }
+
+    //wasShown() and saveDialog() are used to display the splash dialog once and only once
+    public boolean wasShown() {
+        boolean wasShown = mPrefs.getBoolean(dialogShown, false);
+        if (wasShown) {
+            return  true;
+        } else {
+            return false;
+        }
+    }
+
+    public void saveDialog() {
+        mPrefs.edit().putBoolean(dialogShown, true).commit();
     }
 
     public String getHelpful() {

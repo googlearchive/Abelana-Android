@@ -17,14 +17,22 @@
 package com.google.samples.apps.abelana;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.text.Html;
+import android.text.SpannableStringBuilder;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.identitytoolkit.GitkitClient;
@@ -125,8 +133,36 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
                 mGitkitClient.startSignIn();
             }
         });
+        if (!mUserInfoStore.wasShown()) {
+            displayDialog();
+            mUserInfoStore.saveDialog();
+        }
 
     }
+
+    private void displayDialog() {
+        // Build the about body view and append the link to see OSS licenses
+        SpannableStringBuilder aboutBody = new SpannableStringBuilder();
+        aboutBody.append(Html.fromHtml(getString(R.string.splash_dialog_body)));
+
+        LayoutInflater layoutInflater = (LayoutInflater) this.getSystemService(
+                Context.LAYOUT_INFLATER_SERVICE);
+        TextView aboutBodyView = (TextView) layoutInflater.inflate(R.layout.dialog_about, null);
+        aboutBodyView.setText(aboutBody);
+        aboutBodyView.setMovementMethod(new LinkMovementMethod());
+        new AlertDialog.Builder(this)
+                .setTitle("Abelana Demo")
+                .setView(aboutBodyView)
+                .setPositiveButton("ok",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.dismiss();
+                            }
+                        }
+                )
+                .show();
+    }
+
 
 
     private void showProfilePage(IdToken idToken, final GitkitUser user) {
@@ -152,8 +188,9 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
                         }
 
                         public void failure(RetrofitError e) {
-                            Log.v(LOG_TAG, "Failure!");
+                            Log.v(LOG_TAG, "Failure at login!");
                             Toast.makeText(getApplicationContext(), "Login failed!", Toast.LENGTH_LONG);
+                            showSignInPage();
                         }
                     });
         }
@@ -177,8 +214,9 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
 
                 @Override
                 public void failure(RetrofitError error) {
-                    Log.v(LOG_TAG, "Failure!");
+                    Log.v(LOG_TAG, "Failure at secret key!");
                     Toast.makeText(getApplicationContext(), "Login failed!", Toast.LENGTH_LONG);
+                    showSignInPage();
                 }
             });
 

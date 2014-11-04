@@ -40,7 +40,7 @@ public class AbelanaClient {
 
     //adapter used to build all the REST adapters
     public static final RestAdapter restAdapter = new RestAdapter.Builder()
-            .setEndpoint(API_URL)
+            .setEndpoint(API_URL).setLogLevel(RestAdapter.LogLevel.FULL)
             .build();
 
     /*Create static classes for interface callback methods. These classes match the return

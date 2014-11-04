@@ -39,7 +39,6 @@ import retrofit.client.Response;
  * settings. http://developer.android.com/guide/topics/ui/settings.html
  */
 public class SettingsActivity extends Activity {
-    public static final String KEY_PREF_PROFILE_VISIBILITY = "pref_profile_visibility";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,9 +140,9 @@ public class SettingsActivity extends Activity {
                     aboutBodyView.setText(aboutBody);
                     aboutBodyView.setMovementMethod(new LinkMovementMethod());
                     new AlertDialog.Builder(getActivity())
-                            .setTitle("Abelana Demo")
+                            .setTitle(getActivity().getResources().getString(R.string.splash_dialog_title))
                             .setView(aboutBodyView)
-                            .setPositiveButton("ok",
+                            .setPositiveButton(getActivity().getResources().getString(R.string.ok),
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int whichButton) {
                                             dialog.dismiss();

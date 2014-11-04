@@ -51,8 +51,8 @@ public class FriendProfileActivity extends Activity {
             @Override
             public void success(AbelanaClient.Timeline timeline, Response response) {
                 Data.mFollowingProfileUrls = new ArrayList<String>();
-                profileName.setText(timeline.entries[0].name + "'s profile");
                 if (timeline.entries != null) {
+                    profileName.setText(timeline.entries[0].name + "'s profile");
                     for (AbelanaClient.TimelineEntry e : timeline.entries) {
                         Data.mFollowingProfileUrls.add(AbelanaThings.getImage(e.photoid));
                     }

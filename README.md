@@ -4,7 +4,7 @@ Abelana (means "Share" in Zulu) is a project that allows users to take photos an
 
 The Android app was written by Zafir Khan and Les Vogel. For questions and comments, please join the [Google Group](https://groups.google.com/forum/#!forum/abelana-app).
 
-Disclaimer: This application is for educational purposes only, and is not a Google product or service.
+Disclaimer: This application is for educational purposes only and is not a Google product or service.
 
 #Features
 * Connects to Cloud Platform backend featuring CRUD (create/read/update/delete) capabilities
@@ -19,19 +19,14 @@ Disclaimer: This application is for educational purposes only, and is not a Goog
 * State-based layouts
 
 # Project setup
-You can import this project into Android Studio.
+* You can import this project into Android Studio.  
+* To generate your own private keys to access your own servers, you should see [Abelana-GCP](https://github.com/GoogleCloudPlatform/Abelana-gcp)
 
-# Copyright
-Copyright 2014 Google Inc. All rights reserved.
+## Contributing changes
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+* See [CONTRIB.md](CONTRIB.md)
 
-    http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+## Licensing
+
+* See [LICENSE](LICENSE)

@@ -151,9 +151,9 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
         aboutBodyView.setText(aboutBody);
         aboutBodyView.setMovementMethod(new LinkMovementMethod());
         new AlertDialog.Builder(this)
-                .setTitle("Abelana Demo")
+                .setTitle(getString(R.string.splash_dialog_title))
                 .setView(aboutBodyView)
-                .setPositiveButton("ok",
+                .setPositiveButton(getString(R.string.ok),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 dialog.dismiss();

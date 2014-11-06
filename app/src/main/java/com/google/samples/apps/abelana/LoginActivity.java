@@ -171,13 +171,15 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
         Data.mDisplayName = user.getDisplayName();
         Data.mEmail = user.getEmail();
         Data.aTok = mUserInfoStore.getAccToken();
+        String photoUrl = user.getPhotoUrl();
+        if (photoUrl == null) photoUrl = "null";
         //Refer to the FeedFragment to understand how these APIs work
         if(Data.aTok == null){
             AbelanaClient abelanaClient = new AbelanaClient();
 
             abelanaClient.mLogin.login(idToken.getTokenString(),
                     Utilities.base64Encoding(user.getDisplayName()),
-                    Utilities.base64Encoding(user.getPhotoUrl()),
+                    Utilities.base64Encoding(photoUrl),
                     new Callback<AbelanaClient.ATOKJson>() {
 
                         public void success(AbelanaClient.ATOKJson l, Response r) {

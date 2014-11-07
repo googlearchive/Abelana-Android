@@ -22,7 +22,7 @@ Disclaimer: This application is for educational purposes only and is not a Googl
 * You can import this project into Android Studio.  
 * To generate your own private keys to access your own servers, see [Abelana-GCP](https://github.com/GoogleCloudPlatform/Abelana-gcp).
 * Once you've generated the .p12 file, you place it in **app/src/main/res/raw**
-* You should also add your halfKey to **src/java/.../AbelanaThing.java**
+* You should also add your halfKey to **src/java/.../AbelanaThings.java**
 
 ## Contributing changes
 

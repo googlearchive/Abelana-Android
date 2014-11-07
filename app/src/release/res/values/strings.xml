@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2014 Google Inc. All rights reserved.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+<resources>
+
+    <string name="app_name">Abelana</string>
+    <string name="welcome_text">Welcome to Abelana</string>
+    <string name="facebook_app_id">916113918402164</string>
+
+    <!-- Upload navdrawer_header strings -->
+    <string name="service_account">416523807683-87kpuu2fsvov4hbg9j8f8808an8h2k2b@developer.gserviceaccount.com</string>
+    <string name="upload_bucket">abelana-in</string>
+    <string name="display_bucket">abelana</string>
+
+</resources>

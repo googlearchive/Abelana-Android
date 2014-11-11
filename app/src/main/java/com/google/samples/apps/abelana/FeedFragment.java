@@ -98,12 +98,14 @@ public class FeedFragment extends Fragment {
                 Data.mILike = new ArrayList<Boolean>();
                 Data.mFeedUrls = new ArrayList<String>();
                 String qualifier = rootView.getResources().getString(R.string.size_qualifier);
-                for (AbelanaClient.TimelineEntry e: timelineResponse.entries) {
-                    Data.mFeedIds.add(e.photoid);
-                    Data.mFeedUrls.add(AbelanaThings.getImage(e.photoid + qualifier));
-                    Data.mLikes.add(e.likes);
-                    Data.mNames.add(e.name);
-                    Data.mILike.add(e.ilike);
+                if (timelineResponse.entries != null) {
+                    for (AbelanaClient.TimelineEntry e : timelineResponse.entries) {
+                        Data.mFeedIds.add(e.photoid);
+                        Data.mFeedUrls.add(AbelanaThings.getImage(e.photoid + qualifier));
+                        Data.mLikes.add(e.likes);
+                        Data.mNames.add(e.name);
+                        Data.mILike.add(e.ilike);
+                    }
                 }
                 //Warm the image cache by pre-loading the next 5 photos
                 int count = 0;
